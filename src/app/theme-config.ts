@@ -4,10 +4,12 @@ const theme: ThemeConfig = {
     components: {
         Layout : {
             headerBg :"#ffffff",
+            bodyBg : "#ffffff",
         }
     },
     token: {
         colorPrimary: "#277eff",
+        
     },
 };
 
