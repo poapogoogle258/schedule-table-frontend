@@ -3,8 +3,8 @@ import type { ThemeConfig } from 'antd';
 const theme: ThemeConfig = {
     components: {
         Layout : {
-            headerBg :"#ffffff",
-            bodyBg : "#ffffff",
+            headerBg :"#f9fafb",
+            bodyBg : "#f9fafb",
         }
     },
     token: {

@@ -10,7 +10,7 @@ export default function ContentApp({
   }: Readonly<{
     children: React.ReactNode;
   }>){
-    return <Content style={{ padding: '0 48px' , height : "100vh"}}>
+    return <Content style={{ padding: '10px 48px' , height : "100vh"}}>
         {children}
     </Content>
     
