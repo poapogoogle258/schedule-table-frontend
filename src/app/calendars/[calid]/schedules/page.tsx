@@ -6,6 +6,7 @@ import {fetchSchedules} from "@/api/schedules"
 import { cookies } from 'next/headers';
 
 import CardSchedule from "@/app/components/cardSchedule"
+import Link from 'next/link';
 
 export default async function SchedulePage({ params }: { params: Promise<{ calid: string }> }) {
 
@@ -21,16 +22,16 @@ export default async function SchedulePage({ params }: { params: Promise<{ calid
         <div className='flex justify-between items-center'>
             <h1 className='text-3xl font-bold'>หน้าที่เวรทั้งหมด</h1>
             <div className='flex justify-end my-2'>
-                <a href={`/calendars/${calendarId}/schedules/create`}>
+                <Link href={`/calendars/${calendarId}/schedules/create`}>
                     <div className='px-5 py-4 bg-gray-200 rounded-sm'>
                         เพิ่มเวร
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
         <div className='container my-5 grid auto-cols-max grid-flow-col gap-4'>
             {resp.data.data.map((schedule) => {
-                return <CardSchedule schedule={schedule} />
+                return <CardSchedule key={schedule.id} schedule={schedule} />
             })}
         </div>
   

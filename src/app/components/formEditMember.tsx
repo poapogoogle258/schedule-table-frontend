@@ -62,7 +62,6 @@ export default function FormEditMember({ member }: { member: Member }) {
 
 
     const onCancel = () => {
-
         form.setFieldsValue(initDataForm)
     }
 
