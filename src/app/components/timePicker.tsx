@@ -8,6 +8,7 @@ dayjs.extend(customParseFormat);
 
 
 export default function MyTimePicker({ value, onChange }: { value?: dayjs.Dayjs , onChange?: TimePickerProps['onChange'] }) {
+    const format = 'HH:mm'
 
-    return <TimePicker onChange={onChange} defaultOpenValue={dayjs('00:00:00', 'HH:mm:ss')} />;
+    return <TimePicker value={value} onChange={onChange} defaultOpenValue={dayjs('00:00:00', 'HH:mm')} format={format} />;
 }
