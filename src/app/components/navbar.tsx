@@ -27,7 +27,7 @@ export default function Navbar() {
         {
             key: "schedule", 
             label: (
-                <Link href={`\\calendars\\${calid}\\schedule`}>การจัดเวร</Link>
+                <Link href={`\\calendars\\${calid}\\schedules`}>การจัดเวร</Link>
             )
         },
         {

@@ -19,6 +19,4 @@ export default async function EditMemberPage({ params }: { params: Promise<{ cal
   return <>
     <FormEditMember member={res.data.data} />
   </>
-
-
 }

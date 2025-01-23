@@ -3,52 +3,23 @@
 import React from "react";
 import { Button, Form, Input, Flex, Upload} from "antd";
 
-import type { Member } from "@/api/members"
-
-import { PlusOutlined } from '@ant-design/icons';
+import {uploadImageUrl} from "@/api/client"
 
 import UploadProfile from "@/app/components/uploadProfile"
 
 const { TextArea } = Input;
 
-// async function Action(formData: FormData) {
 
-//     setSendingCreateMember(true)
-
-//     const body = {
-//         "name": "name",
-//         "nickName": values.nickName,
-//         "profile": !!values.upload ? values.upload[0].response?.filename : data.profile,
-//         "description": values.description,
-//         "tag": values.tag.split(','),
-//         "address": {
-//             "phone": values.phone,
-//             "line": values.line,
-//             "email": values.email
-//         }
-//     }
-
-//     const res = await MemberApi.updateMember(data['_id'], body)
-
-//     if (res.message === 'success') {
-//         setSendingCreateMember(false)
-//         setVisible(false);
-
-//         form.resetFields()
-//         setFileList(defaultFileList)
-//     }
-// }
-
-export default function FormEditMember({ member }: { member: Member }) {
+export default function FormCreatedMember() {
     const [form] = Form.useForm();
 
     const initDataForm = {
-        "imageURL": member.imageURL,
-        "name": member.name,
-        "nickname": member.nickname,
-        "description": member.description,
-        "phone": member.telephone,
-        "email": member.email,
+        "imageURL": `${uploadImageUrl}/default-profile.jpg`,
+        "name": "",
+        "nickname": "",
+        "description": "",
+        "phone": "",
+        "email": "",
     }
 
     const formItemLayout = {
