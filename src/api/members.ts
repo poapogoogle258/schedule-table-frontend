@@ -13,22 +13,30 @@ export interface Member {
     telephone: string
 }
 
-export async function fetchMember(calendarId : string ,memberId : string, token : string) {
-    const res = client.get<Response<Member>>(`/api/calendars/${calendarId}/members/${memberId}`, {
+
+export function fetchMember(calendarId : string ,memberId : string, token : string) {
+    return client.get<Response<Member>>(`/api/calendars/${calendarId}/members/${memberId}`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }
     })
 
-    return res
 }
 
-export async function fetchMembers(calendar_id: string, token: string) {
-    const res = client.get<Response<Member[]>>(`/api/calendars/${calendar_id}/members`, {
+export function fetchMembers(calendar_id: string, token: string) {
+    return client.get<Response<Member[]>>(`/api/calendars/${calendar_id}/members`, {
         headers: {
             "Authorization": `Bearer ${token}`
         }
     })
+}
 
-    return res
+export function createMember(calendar_id: string, member: FormData, token : string) {
+    return client.post<Response<Member>>(`/api/calendars/${calendar_id}/members`, member, {
+        headers: {
+            "Content-Type" : "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+
 }

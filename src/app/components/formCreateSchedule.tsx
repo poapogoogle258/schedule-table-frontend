@@ -84,7 +84,6 @@ const FormCreateSchedule: React.FC = () => {
             <TextArea rows={4} />
         </Form.Item>
         
-
         <Form.Item label="count" name="count">
             <InputNumber />
         </Form.Item>
@@ -100,7 +99,6 @@ const FormCreateSchedule: React.FC = () => {
         <Form.Item label="bymonth" name="bymonth">
             <CheckboxGroupMonth />
         </Form.Item>
-
 
         <Flex gap="middle" justify="center" align='center'>
             <Form.Item>

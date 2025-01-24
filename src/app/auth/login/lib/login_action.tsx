@@ -6,7 +6,6 @@ import { cookies } from 'next/headers'
 
 import { redirect } from 'next/navigation';
 
-
 export default async function LoginAction(formData: FormData) {
 
     const FromScheme = z.object({
@@ -29,6 +28,6 @@ export default async function LoginAction(formData: FormData) {
     const cookieStore = await cookies()
     cookieStore.set("profile", JSON.stringify(profile))
     cookieStore.set("token", resLogin.data.token)
-    redirect(`/calendars/${profile.data.calendar_id}`)
 
+    redirect(`/calendars/${profile.data.calendar_id}`)
 }

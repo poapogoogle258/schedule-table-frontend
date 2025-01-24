@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar";
-import Content from "../../ui/content";
+import Content from "../../components/content";
 
 export default async function RootLayout({
   children,
