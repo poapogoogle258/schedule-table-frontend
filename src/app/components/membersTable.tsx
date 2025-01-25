@@ -1,18 +1,28 @@
 'use client'
 
-import React, { useState } from 'react';
-import { Flex, Table, TableColumnsType, Button } from 'antd';
+import React, { useState, } from 'react';
+import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
+import type { PaginationProps } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 
-import type { Member } from "@/api/members"
+import type { Member } from "@/type/member"
 
 import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
 import Link from 'next/link';
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export default function MembersTable({ dataSource }: { dataSource: Member[] }) {
+export default function MembersTable({ dataSource, page, limit, total }: { dataSource: Member[], page: number, limit: number, total: number }) {
 
     const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const { replace } = useRouter();
+
+    const PaginationOnChange: PaginationProps['onChange'] = (page: number, pageSize: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set("page", page.toString())
+        params.set("limit", limit.toString())
+        replace(pathname + '?' + params.toString())
+    }
 
     const columns: TableColumnsType<Member> = [
         {
@@ -36,7 +46,7 @@ export default function MembersTable({ dataSource }: { dataSource: Member[] }) {
             </> : null
         },
         {
-            key : "name",
+            key: "name",
             title: 'ชื่อ',
             dataIndex: 'name',
             width: '40%',
@@ -48,7 +58,7 @@ export default function MembersTable({ dataSource }: { dataSource: Member[] }) {
             </> : null
         },
         {
-            key : "action",
+            key: "action",
             title: '',
             dataIndex: 'operator',
             width: '8%',
@@ -66,11 +76,16 @@ export default function MembersTable({ dataSource }: { dataSource: Member[] }) {
         }
     ];
 
-    return <Table
-        rowClassName={() => 'editable-row'}
-        bordered
-        dataSource={dataSource}
-        columns={columns}
-        pagination={{ position: ["bottomCenter"] }}
-    />
+    return <>
+            <Table
+                className='my-5'
+                rowClassName={() => 'editable-row'}
+                bordered
+                dataSource={dataSource}
+                columns={columns}
+                pagination={false}
+            />
+            <Pagination align='center' current={page} defaultCurrent={1} total={total} pageSize={15} onChange={PaginationOnChange} />
+    </>
+
 };

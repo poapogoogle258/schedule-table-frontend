@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 import { fetchMember } from "@/api/members"
 
-import FormEditMember from "@/app/components/formEditMember"
+import FormEditMember from "./formEditMember"
 
 export default async function EditMemberPage({ params }: { params: Promise<{ calid: string, memberid: string }> }) {
 
@@ -16,7 +16,9 @@ export default async function EditMemberPage({ params }: { params: Promise<{ cal
   const token = cookiesStone.get("token")!.value
   const res = await fetchMember(calid, memberid, token)
 
-  return <>
-    <FormEditMember member={res.data.data} />
-  </>
+  return (
+    <main className="container mx-auto my-10">
+      <FormEditMember member={res.data.data} />
+    </main>
+  )
 }

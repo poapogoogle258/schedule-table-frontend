@@ -2,15 +2,12 @@
 
 import React, { useState } from "react";
 
-// import { z } from "zod"
 import { Button, Form, Input, Flex, ColorPicker } from "antd";
-
 import { useParams } from "next/navigation";
-
-import { uploadImageUrl } from "@/api/client"
 import UploadProfile from "@/app/components/uploadProfile"
-import createNewMemberAction from './actionCreateMember'
 
+import actionEditMember from './actionEditMember'
+import type { Member } from "@/type/member"
 import type { FormDataMember } from "@/type/form"
 
 const { TextArea } = Input;
@@ -24,22 +21,22 @@ const formItemLayout = {
     },
 };
 
-const initDataForm = {
-    "imageURL": `${uploadImageUrl}/default-profile.jpg`,
-    "name": "",
-    "nickname": "",
-    "description": "",
-    "phone": "",
-    "email": "",
-    "color": "#000000",
-    "position": ""
-}
-
-export default function FormCreatedMember() {
-    const { calid } = useParams<{ calid: string }>()
+export default function FormEditMember({ member }: { member: Member }) {
+    const { calid, memberid } = useParams<{ calid: string, memberid: string }>()
     const [form] = Form.useForm();
     const [padding, setPadding] = useState(false)
     const [message, setMessage] = useState({ color: 'text-red-700', text: '' })
+
+    const initDataForm = {
+        "imageURL": member.imageURL,
+        "name": member.name,
+        "nickname": member.nickname,
+        "description": member.description,
+        "telephone": member.telephone,
+        "email": member.email,
+        "color": member.color,
+        "position": member.position
+    }
 
     const onCancel = () => {
         form.setFieldsValue(initDataForm)
@@ -47,9 +44,9 @@ export default function FormCreatedMember() {
 
     async function onFinish(formData: FormDataMember) {
         setPadding(true)
-        const resp = await createNewMemberAction(calid, formData)
+        const resp = await actionEditMember(calid, memberid, formData)
         if (resp?.error) {
-            setMessage({ color: 'text-red-700', text: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" })
+            setMessage({ color: 'text-red-700', text: resp.error })
         } else {
             setMessage({ color: 'text-green-700', text: "ลงทะเบียนเรียบร้อย" })
         }
@@ -74,7 +71,7 @@ export default function FormCreatedMember() {
         }}>
             <ColorPicker disabledAlpha />
         </Form.Item>
-        <Form.Item label="เบอร์โทร" name="phone" rules={[{ pattern: new RegExp("^[0-9]{10}$"), message: 'กรุณากรอกเบอร์โทร', whitespace: true }]}>
+        <Form.Item label="เบอร์โทร" name="telephone" rules={[{ pattern: new RegExp("^[0-9]{10}$"), message: 'กรุณากรอกเบอร์โทร', whitespace: true }]}>
             <Input placeholder="081000000" />
         </Form.Item>
         <Form.Item label="อีเมลล์" name="email" rules={[{ type: 'email', message: 'กรุณากรอกอีเมลล์' }]}>

@@ -3,12 +3,10 @@
 import { cookies } from "next/headers";
 import { createMember } from '@/api/members'
 import { redirect, RedirectType } from "next/navigation";
-import { revalidatePath } from 'next/cache'
+import type { ServerActionError } from "@/type/serverAction"
+import type { FormDataMember } from "@/type/form"
 
-type ActionError = { error : string}
-type ServerActionError = ActionError | undefined 
-
-export default async function createNewMember(calenderId : string,formData: FormData) : Promise<ServerActionError> {
+export default async function createNewMember(calenderId : string,formData: FormDataMember) : Promise<ServerActionError> {
 
     const cookiesStone = await cookies()
     const token = cookiesStone.get("token")!.value
@@ -21,8 +19,6 @@ export default async function createNewMember(calenderId : string,formData: Form
         }
     }
 
-    revalidatePath(`/calendars/${calenderId}/members/create`)
-    redirect(`/calendars/${calenderId}/members`, RedirectType.replace);
-
+    redirect(`/calendars/${calenderId}/members`, RedirectType.push);
 }
 
