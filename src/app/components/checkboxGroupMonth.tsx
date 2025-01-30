@@ -26,7 +26,7 @@ export default function checkboxGroupMonth({ value, onChange }: { value?: string
   return <CheckboxGroup value={value} onChange={onChange}>
     <Row>
       {options.map(option => <Col span={4}>
-        <Checkbox value={option.value}>{option.label}</Checkbox>
+        <Checkbox key={option.value} value={option.value}>{option.label}</Checkbox>
       </Col>)}
     </Row>
 

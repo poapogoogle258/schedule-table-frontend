@@ -11,7 +11,6 @@ import MembersTable from "@/app/components/membersTable";
 import Link from 'next/link';
 
 
-
 export default async function MembersManagement({ params, searchParams }: { params: Promise<{ calid: string }>, searchParams: Promise<{ page?: string, limit?: string }> }) {
 
     const query = new URLSearchParams(await searchParams)

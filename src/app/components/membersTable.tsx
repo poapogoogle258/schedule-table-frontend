@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, } from 'react';
+import React from 'react';
 import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
 
 import type { Member } from "@/type/member"
 

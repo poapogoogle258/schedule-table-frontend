@@ -43,3 +43,12 @@ export function editMember(calendar_id: string, memberId :string ,member: FormDa
         }
     })
 }
+
+export function deleteMember(calendar_id: string, memberId :string, token : string) {
+    return client.delete(`/api/calendars/${calendar_id}/members/${memberId}`,{
+        headers: {
+            "Content-Type" : "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+}

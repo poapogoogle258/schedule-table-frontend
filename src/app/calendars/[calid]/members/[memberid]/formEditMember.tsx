@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 
 import { Button, Form, Input, Flex, ColorPicker } from "antd";
-import { useParams } from "next/navigation";
 import UploadProfile from "@/app/components/uploadProfile"
+import { useRouter, useParams } from 'next/navigation'
 
 import actionEditMember from './actionEditMember'
 import type { Member } from "@/type/member"
@@ -27,6 +27,8 @@ export default function FormEditMember({ member }: { member: Member }) {
     const [padding, setPadding] = useState(false)
     const [message, setMessage] = useState({ color: 'text-red-700', text: '' })
 
+    const router = useRouter()
+
     const initDataForm = {
         "imageURL": member.imageURL,
         "name": member.name,
@@ -40,6 +42,8 @@ export default function FormEditMember({ member }: { member: Member }) {
 
     const onCancel = () => {
         form.setFieldsValue(initDataForm)
+
+        router.push(`/calendars/${calid}/members`)
     }
 
     async function onFinish(formData: FormDataMember) {
@@ -92,7 +96,7 @@ export default function FormEditMember({ member }: { member: Member }) {
                 </Button>
             </Form.Item>
             <Form.Item>
-                <Button htmlType="button" onClick={onCancel}>
+                <Button htmlType="button" onClick={onCancel} >
                     ยกเลิก
                 </Button>
             </Form.Item>
