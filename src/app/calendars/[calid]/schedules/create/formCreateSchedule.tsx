@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, FormEvent } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import { Form, Input, Flex, Button, InputNumber, Pagination } from 'antd';
 import type { ButtonProps, FormProps } from 'antd';
@@ -51,6 +51,8 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
     const [pageForm, setPageForm] = useState(1)
 
+    const [lockSelectMembers, setLockSelectMembers] = useState(false)
+
     const buttonSubmit = useRef<HTMLButtonElement>(null)
 
     const initDataForm = {
@@ -68,33 +70,9 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
         "interval": 1,
         "byweekday": [],
         "bymonth": [],
-        "scheduleMasterId": "",
+        "scheduleMasterId": undefined,
         "members": []
     }
-
-    // const initDataForm = {
-    //     "imageURL": "http://localhost:8080/upload/1738248143095287.png",
-    //     "name": "test",
-    //     "priority": 1,
-    //     "start": "2025-01-29T17:00:00.000Z",
-    //     "end": "2026-01-29T17:00:00.000Z",
-    //     "hr_start": "2025-01-30T11:00:00.000Z",
-    //     "hr_end": "2025-01-30T00:00:00.000Z",
-    //     "breaktime": 480,
-    //     "description": "เวรกลางคืนนนนนนนนน",
-    //     "freq": 0,
-    //     "interval": 1,
-    //     "byweekday": [
-    //         0,
-    //         1,
-    //         2,
-    //         3,
-    //         4,
-    //         5,
-    //         6
-    //     ],
-    //     "bymonth": [],
-    // }
 
     const formItemLayout = {
         labelCol: {
@@ -105,9 +83,9 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
         },
     };
 
-    const onCancel = () => {
-        form.setFieldsValue(initDataForm)
-    }
+    const setSelectMember = useCallback((data : Member[]) => {
+        form.setFieldValue('members', data);
+    },[])
 
     const onFinish = (values: ScheduleFormData) => {
         console.log(values);
@@ -127,7 +105,6 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
         </div>
 
         <Form {...formItemLayout} form={form} onFinish={onFinish} initialValues={initDataForm}>
-
             <div className={pageForm == 1 ? '' : 'hidden'}>
                 <Form.Item required label="โปรไฟล์" name="imageURL">
                     <UploadProfile />
@@ -144,9 +121,6 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
             </div>
 
             <div className={pageForm == 2 ? '' : 'hidden'}>
-                <Form.Item label="เวลาพักขั้นตํ่าหลังออกเวร(นาที)" name="breaktime">
-                    <InputNumber />
-                </Form.Item>
                 <Form.Item label="วันที่เริ่มต้น" name="start">
                     <MyDatePicker />
                 </Form.Item>
@@ -159,9 +133,10 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
                 <Form.Item label="เวลาจบ" name="hr_end">
                     <MyTimePicker />
                 </Form.Item>
-                <Form.Item label="count" name="count">
+                <Form.Item label="เวลาพักขั้นตํ่าหลังออกเวร(นาที)" name="breaktime">
                     <InputNumber />
                 </Form.Item>
+     
                 <Form.Item label="freq" name="freq">
                     <RadioGroupFreq />
                 </Form.Item>
@@ -174,14 +149,24 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
                 <Form.Item label="bymonth" name="bymonth">
                     <CheckboxGroupMonth />
                 </Form.Item>
+                <Form.Item label="count" name="count">
+                    <InputNumber />
+                </Form.Item>
             </div>
 
             <div className={pageForm == 3 ? '' : 'hidden'}>
                 <Form.Item label="scheduleMaster" name="scheduleMaster">
-                    <SelectScheduleTable dataSource={schedules} />
+                    <SelectScheduleTable
+                        dataSource={schedules}
+                        setSelectMember={setSelectMember}
+                        setLockSelectMembers={setLockSelectMembers}
+                    />
                 </Form.Item>
                 <Form.Item label="members" name="members">
-                    <SelectMemberTable dataSource={members} />
+                    <SelectMemberTable
+                        dataSource={members}
+                        lockSelectMembers={lockSelectMembers}
+                    />
                 </Form.Item>
             </div>
 

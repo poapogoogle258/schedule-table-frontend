@@ -6,6 +6,7 @@ import type { PaginationProps, TableProps } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
 
 import type { Schedule } from "@/type/schedule"
+import type { Member } from "@/type/member"
 
 import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
 import Link from 'next/link';
@@ -18,8 +19,18 @@ type DataType = {
 };
 
 type onChangeState = (data: string) => void | undefined
+type onChangeSelectMember = (data: Member[]) => void | undefined
+type onChangeLockSelectMember = (data: boolean) => void | undefined
 
-export default function SelectMasterScheduleTable({ dataSource, value, onChange }: { dataSource: Schedule[], value?: string, onChange?: onChangeState }) {
+interface SelectMasterScheduleTableProp {
+    dataSource: Schedule[]
+    value?: string
+    onChange?: onChangeState
+    setSelectMember: onChangeSelectMember
+    setLockSelectMembers: onChangeLockSelectMember
+}
+
+const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ dataSource, value, onChange, setSelectMember, setLockSelectMembers }) => {
 
     const data = dataSource.filter((item) => item.master_id == null).map((item, index) => ({
         key: item.id,
@@ -33,6 +44,12 @@ export default function SelectMasterScheduleTable({ dataSource, value, onChange 
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             onChange!(selectedRowKeys[0] as string)
             SetKeySelected(selectedRowKeys)
+            const indexOfDataSource = dataSource.findIndex((value) => value.id == selectedRowKeys[0])
+            if (indexOfDataSource == -1) {
+                throw Error(`not fount key ${selectedRowKeys[0]} in dataSource`)
+            }
+            setSelectMember(dataSource[indexOfDataSource].members)
+            setLockSelectMembers(true)
         },
         selectedRowKeys: keySelected
     };
@@ -52,7 +69,7 @@ export default function SelectMasterScheduleTable({ dataSource, value, onChange 
     ];
 
     return <>
-        {keySelected.length != 0 && <Button type="link" className="px-3" onClick={() => { SetKeySelected([]) }} >
+        {keySelected.length != 0 && <Button type="link" className="px-3" onClick={() => { SetKeySelected([]);setSelectMember([]);setLockSelectMembers(false); }} >
             <p className="font-thin italic text-blue-500 hover:text-blue-800">
                 cancel
             </p>
@@ -68,3 +85,5 @@ export default function SelectMasterScheduleTable({ dataSource, value, onChange 
     </>
 
 }
+
+export default SelectMasterScheduleTable;

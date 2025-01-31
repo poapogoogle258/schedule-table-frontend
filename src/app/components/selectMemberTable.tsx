@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
 import type { PaginationProps, TableProps } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
@@ -18,8 +18,6 @@ interface DataType {
     description: string
     position: string
 }
-
-type onChangeState = (data: Member[]) => void | undefined
 
 function SelectKeyToValue(keys: React.Key[], dataSource: Member[]): Member[] {
 
@@ -40,14 +38,22 @@ function SelectKeyToValue(keys: React.Key[], dataSource: Member[]): Member[] {
 
 }
 
-function selectId(value: Member, index: Number): string {
+function selectId(value: Member): string {
     return value.id
 }
 
+interface SelectMemberTableProps {
+    dataSource: Member[]
+    value? : Member[]
+    onChange? : (data: Member[]) => void | undefined
+    lockSelectMembers?: boolean
+}
 
-export default function SelectMemberTable({ dataSource, value, onChange }: { dataSource: Member[], value?: Member[], onChange?: onChangeState }) {
+const SelectMemberTable: React.FC<SelectMemberTableProps> = ({ dataSource, value, onChange, lockSelectMembers }) => {
 
-    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>(value!.map(selectId) || []);
+    const selectedRowKeys = useMemo(() => {
+        return value!.map(selectId)
+    },[value])
 
     const data = dataSource.map((item, index) => ({
         key: item.id,
@@ -60,8 +66,10 @@ export default function SelectMemberTable({ dataSource, value, onChange }: { dat
     const rowSelection: TableProps<DataType>['rowSelection'] = {
         onChange: (newSelectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             onChange!(SelectKeyToValue(newSelectedRowKeys, dataSource))
-            setSelectedRowKeys(newSelectedRowKeys)
         },
+        getCheckboxProps: (record) => ({
+            disabled: lockSelectMembers
+        }),
         selectedRowKeys: selectedRowKeys
     };
 
@@ -101,3 +109,5 @@ export default function SelectMemberTable({ dataSource, value, onChange }: { dat
     </>
 
 }
+
+export default SelectMemberTable;
