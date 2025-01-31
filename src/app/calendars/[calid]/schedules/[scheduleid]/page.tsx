@@ -4,9 +4,10 @@ import React from "react";
 
 import { cookies } from "next/headers";
 
-import FormEditSchedule from "@/app/components/formEditSchedule"
+import FormEditSchedule from "./formEditSchedule"
 
-import { fetchSchedule } from "@/api/schedules"
+import { fetchMembers } from "@/api/members"
+import { fetchSchedules } from "@/api/schedules"
 
 export default async function EditSchedukePage({ params }: { params: Promise<{ calid: string, scheduleid: string }> }) {
 
@@ -15,9 +16,14 @@ export default async function EditSchedukePage({ params }: { params: Promise<{ c
     const cookiesStone = await cookies()
     const token = cookiesStone.get("token")!.value
 
-    const resp = await fetchSchedule(calid, scheduleid, token)
+    const [resp_members, resp_schedule] = await Promise.all([fetchMembers(calid, "all=true", token), fetchSchedules(calid, token)])
 
-    return <>
-        <FormEditSchedule schedule={resp.data.data} />
-    </>
+    return (
+        <main>
+            <FormEditSchedule
+                members={resp_members.data.data.data}
+                schedules={resp_schedule.data.data}
+            />
+        </main>
+    )
 }

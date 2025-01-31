@@ -6,10 +6,10 @@ import { Input, Radio } from 'antd';
 const RadioGroup = Radio.Group;
 
 const options = [
-  { label: 'รายวัน', value: 0 },
-  { label: 'รายสัปดาห์', value: 1 },
-  { label: 'รายเดือน', value: 2 },
-  { label: 'รายปี', value: 3 },
+  { label: 'รายวัน', value: 3 },
+  { label: 'รายสัปดาห์', value: 2 },
+  { label: 'รายเดือน', value: 1 },
+  { label: 'รายปี', value: 0 },
 ];
 
 export default function RadioGroupFreq({ value, onChange }: { value?: number , onChange?:((e: RadioChangeEvent) => void) | undefined }) {

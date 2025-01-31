@@ -2,7 +2,7 @@ import type { Member } from "./member";
 
 interface Recurrence {
     freq: number;
-    count: number;
+    count: number | null;
     interval: number;
     byweekday: number[];
     bymonth: number[];
@@ -25,3 +25,5 @@ export interface Schedule {
     recurrence: Recurrence,
     members: Member[]
 }
+ 
+export type CreateSchedule = Omit<Schedule, 'id'>

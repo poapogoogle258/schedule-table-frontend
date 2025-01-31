@@ -29,7 +29,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ calid
                 </Link>
             </div>
         </div>
-        <div className='container my-5 grid auto-cols-max grid-flow-col gap-4'>
+        <div className='mx-10 my-5 flex flex-wrap gap-10'>
             {resp.data.data.map((schedule) => {
                 return <CardSchedule key={schedule.id} schedule={schedule} />
             })}

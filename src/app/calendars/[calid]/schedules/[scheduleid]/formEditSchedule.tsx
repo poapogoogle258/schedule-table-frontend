@@ -21,7 +21,7 @@ import SelectMemberTable from "@/app/components/selectMemberTable"
 import SelectScheduleTable from '@/app/components/selectMasterSchedule';
 import dayjs from 'dayjs';
 
-import ActionCreateSchedule from "./actionCreateSchedule"
+import ActionUpdateSchedule from "./actionEditSchedule"
 
 const { TextArea } = Input;
 
@@ -53,33 +53,37 @@ export interface ScheduleFormData {
 }
 
 
-const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedules }) => {
+const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedules }) => {
+    const { calid , scheduleid } = useParams<{calid : string , scheduleid : string}>()
+    const indexOfSchedule = schedules.findIndex((value) => value.id == scheduleid )
+    if(indexOfSchedule == -1){
+        throw new Error("not fount schedule id in datasource")
+    }
+    const schedule = schedules[indexOfSchedule]
 
-    const { calid } = useParams<{calid : string}>()
     const [form] = Form.useForm();
     const [pageForm, setPageForm] = useState(1)
-    
 
-    const [lockSelectMembers, setLockSelectMembers] = useState(false)
+    const [lockSelectMembers, setLockSelectMembers] = useState(!!schedule.master_id)
     const buttonSubmit = useRef<HTMLButtonElement>(null)
 
     const initDataForm: ScheduleFormData = {
-        "imageURL": defaultImageSchedule,
-        "name": "",
-        "description": "",
-        "priority": 1,
-        "start": null,
-        "end": null,
-        "hr_start": null,
-        "hr_end": null,
-        "breaktime": 0,
-        "freq": 3,
-        "count": null,
-        "interval": 1,
-        "byweekday": [],
-        "bymonth": [],
-        "scheduleMasterId": null,
-        "members": []
+        "imageURL": schedule.imageURL,
+        "name": schedule.name,
+        "description": schedule.description,
+        "priority": schedule.priority,
+        "start": schedule.start,
+        "end": schedule.end,
+        "hr_start": schedule.hr_start,
+        "hr_end": schedule.hr_end,
+        "breaktime": schedule.breaktime,
+        "freq": schedule.recurrence.freq,
+        "count": schedule.recurrence.count,
+        "interval": schedule.recurrence.interval,
+        "byweekday": schedule.recurrence.byweekday,
+        "bymonth": schedule.recurrence.bymonth,
+        "scheduleMasterId": schedule.master_id,
+        "members": schedule.members
     }
 
     const formItemLayout = {
@@ -98,7 +102,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
 
     const onFinish = async (formData : ScheduleFormData) => {
-       const result = await ActionCreateSchedule(calid, formData)
+       const result = await ActionUpdateSchedule(calid,scheduleid ,formData)
        console.log(result)
     };
 
@@ -249,5 +253,5 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
 
 };
 
-export default FormCreateSchedule;
+export default FormEditSchedule;
 
