@@ -28,11 +28,12 @@ interface SelectMasterScheduleTableProp {
     onChange?: onChangeState
     setSelectMember: onChangeSelectMember
     setLockSelectMembers: onChangeLockSelectMember
+    except? : string
 }
 
-const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ dataSource, value, onChange, setSelectMember, setLockSelectMembers }) => {
+const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ dataSource, value, onChange, setSelectMember, setLockSelectMembers, except }) => {
 
-    const data = dataSource.filter((item) => item.master_id == null).map((item, index) => ({
+    const data = dataSource.filter((item) => item.master_id == null && item.id != except! ).map((item, index) => ({
         key: item.id,
         name: item.name,
         description: item.description

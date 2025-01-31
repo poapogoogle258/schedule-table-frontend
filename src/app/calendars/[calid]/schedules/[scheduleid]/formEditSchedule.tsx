@@ -233,6 +233,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
                     <SelectScheduleTable
                         dataSource={schedules}
                         setSelectMember={setSelectMember}
+                        except={scheduleid}
                         setLockSelectMembers={setLockSelectMembers}
                     />
                 </Form.Item>

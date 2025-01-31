@@ -15,13 +15,11 @@ export default async function CalendarPage({ params }: { params: Promise<{ calid
   const calendarId = (await params).calid
 
   const start = new Date("2025-01-01 00:00:00")
-  const end = new Date("2025-02-01 00:00:00")
+  const end = new Date("2025-02-28 00:00:00")
 
   const token = cookiesStone.get("token")!.value
 
   const res = await fetchTasks(calendarId, start, end, token)
-
-  console.log(React.version)
 
   return <>
     <Row>

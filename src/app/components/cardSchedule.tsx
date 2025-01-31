@@ -6,6 +6,8 @@ import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-de
 import Link from 'next/link';
 
 import type { Schedule } from '@/type/schedule';
+import actionDeleteSchedule from "@/app/calendars/[calid]/schedules/actionDeleteSchedule"
+
 
 interface CardScheduleProps {
     schedule: Schedule;
@@ -30,18 +32,46 @@ const ButtonLinkEdit: React.FC<{ calendarId: string, scheduleId: string }> = ({ 
 
 const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calendarId, name }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
 
-    const handleOk = () => {
+    const handleOk = async() => {
+        setIsLoading(true)
+        await actionDeleteSchedule(calendarId, scheduleId)
+        setIsLoading(true)
         setIsModalOpen(false);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const ButtonSubmitDelete: React.FC = () => {
+        return (
+            <Button
+                key="submit"
+                type="primary"
+                loading={isLoading}
+                onClick={handleOk}
+                danger
+            >
+                เข้าใจแล้ว, ฉันต้องการลบ
+            </Button>
+        )
+    }
+
+    const ButtonCancelDelete: React.FC = () => {
+        return (
+            <Button
+                disabled={isLoading}
+                key="cancel"
+                onClick={handleCancel}
+                
+            >
+                ยกเลิก
+            </Button>
+        )
+    }
 
     return (
         <>
@@ -55,6 +85,7 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
                 open={isModalOpen} onOk={handleOk} 
                 title={`ต้องการลบเวร ${name} หรือไม่`} 
                 onCancel={handleCancel} 
+                footer={[<ButtonSubmitDelete/>, <ButtonCancelDelete/>]}
             >
                 <p>คำเตือน</p>
                 <p>1. หากลบแล้วเวรต่างที่ถูกจัดขึ้นมาจะถูกยกเลิก</p>
