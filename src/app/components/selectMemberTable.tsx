@@ -97,6 +97,7 @@ const SelectMemberTable: React.FC<SelectMemberTableProps> = ({ dataSource, value
     ];
 
     return <>
+        {selectedRowKeys.length == 0 && <p className="py-1 px-3 text-orange-500 italic">กรุณาเลือกสมาชิกอย่างน้อย 1 คน</p>}
         {selectedRowKeys.length > 0 && <p className="py-1 px-3 italic">selected members {selectedRowKeys.length} people.</p>}
         <Table
             className='mx-5'
