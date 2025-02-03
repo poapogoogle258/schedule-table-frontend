@@ -50,6 +50,7 @@ export interface ScheduleFormData {
     bymonth: number[]
     scheduleMasterId: string | null
     members: Member[] | null
+    use_number_people : number
 }
 
 
@@ -83,7 +84,8 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
         "byweekday": schedule.recurrence.byweekday,
         "bymonth": schedule.recurrence.bymonth,
         "scheduleMasterId": schedule.master_id,
-        "members": schedule.members
+        "members": schedule.members,
+        "use_number_people" : schedule.use_number_people
     }
 
     const formItemLayout = {
@@ -103,7 +105,6 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
 
     const onFinish = async (formData : ScheduleFormData) => {
        const result = await ActionUpdateSchedule(calid,scheduleid ,formData)
-       console.log(result)
     };
 
     const validator = {
@@ -229,6 +230,9 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
             </div>
 
             <div className={pageForm == 3 ? '' : 'hidden'}>
+                 <Form.Item label="จำนวนเข้าเวรครั้งละ" name="use_number_people">
+                    <InputNumber/>
+                </Form.Item>
                 <Form.Item label="scheduleMaster" name="scheduleMaster">
                     <SelectScheduleTable
                         dataSource={schedules}

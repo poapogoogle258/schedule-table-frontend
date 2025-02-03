@@ -35,7 +35,7 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
     const [isLoading, setIsLoading] = useState(false)
 
 
-    const handleOk = async() => {
+    const handleOk = async () => {
         setIsLoading(true)
         await actionDeleteSchedule(calendarId, scheduleId)
         setIsLoading(true)
@@ -66,7 +66,7 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
                 disabled={isLoading}
                 key="cancel"
                 onClick={handleCancel}
-                
+
             >
                 ยกเลิก
             </Button>
@@ -81,11 +81,11 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
                 onClick={() => { setIsModalOpen(true) }}
                 icon={<DeleteOutlined />}
             />
-            <Modal 
-                open={isModalOpen} onOk={handleOk} 
-                title={`ต้องการลบเวร ${name} หรือไม่`} 
-                onCancel={handleCancel} 
-                footer={[<ButtonSubmitDelete/>, <ButtonCancelDelete/>]}
+            <Modal
+                open={isModalOpen} onOk={handleOk}
+                title={`ต้องการลบเวร ${name} หรือไม่`}
+                onCancel={handleCancel}
+                footer={[<ButtonSubmitDelete />, <ButtonCancelDelete />]}
             >
                 <p>คำเตือน</p>
                 <p>1. หากลบแล้วเวรต่างที่ถูกจัดขึ้นมาจะถูกยกเลิก</p>
@@ -115,14 +115,17 @@ const CardSchedule: React.FC<CardScheduleProps> = ({ schedule }) => {
 
     return (
         <Card
-            title={schedule.name}
             bordered={false}
             style={{ width: 300 }}
             cover={coverImage}
             actions={actions}
         >
-            <p>{schedule.description}</p>
-            <p>{schedule.members?.length ?? 0} คน</p>
+            <div className='mb-5'>
+                <h1 className='text-lg font-bold'>{schedule.name}</h1>
+                <p className='text-sm font-thin line-clamp-3 text-black/50'>{schedule.description}</p>
+            </div>
+
+            <p className=''>{schedule.members?.length ?? 0} คน</p>
         </Card>
     );
 };

@@ -6,7 +6,6 @@ import type { Schedule } from "@/type/schedule"
 
 import { updateSchedule } from "@/api/schedules"
 import { cookies } from "next/headers"
-// import { revalidatePath } from "next/cache"
 import { permanentRedirect } from 'next/navigation'
 
 export default async function ActionUpdateSchedule(calendarId : string ,scheduleId : string ,data : ScheduleFormData) : Promise<ServerActionError> {
@@ -36,6 +35,7 @@ export default async function ActionUpdateSchedule(calendarId : string ,schedule
             bymonth: data.bymonth
         },
         members: data.members!,
+        use_number_people : data.use_number_people
     }
 
     try{
@@ -46,7 +46,6 @@ export default async function ActionUpdateSchedule(calendarId : string ,schedule
         }
     }
 
-    // revalidatePath(`/calendars/${calendarId}/schedules`)
     permanentRedirect(`/calendars/${calendarId}/schedules`)
 
 }

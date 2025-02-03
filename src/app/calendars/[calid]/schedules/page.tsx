@@ -16,7 +16,6 @@ export default async function SchedulePage({ params }: { params: Promise<{ calid
     const token = cookiesStone.get("token")!.value
 
     const resp = await fetchSchedules(calendarId, token)
-    console.log(resp.status)
 
     return <>
         <div className='flex justify-between items-center'>

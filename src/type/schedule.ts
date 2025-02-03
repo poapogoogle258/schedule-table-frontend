@@ -22,6 +22,7 @@ export interface Schedule {
     hr_end: string;
     tzid: string;
     breaktime: number;
+    use_number_people : number,
     recurrence: Recurrence,
     members: Member[]
 }

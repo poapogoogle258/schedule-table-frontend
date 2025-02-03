@@ -1,6 +1,9 @@
 import Navbar from "../../components/navbar";
 import Content from "../../components/content";
 
+import CalendarSelectContext from "./select-date-provider"
+import SearchNameProvider from "./search-name-provider"
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -8,9 +11,11 @@ export default async function RootLayout({
 }>) {
 
   return <>
-    <Navbar/>
+    <Navbar />
     <Content>
-      {children}
+      <SearchNameProvider>
+        <CalendarSelectContext>{children}</CalendarSelectContext>
+      </SearchNameProvider>
     </Content>
   </>
 
