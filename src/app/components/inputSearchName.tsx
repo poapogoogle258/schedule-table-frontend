@@ -43,7 +43,7 @@ const InputSearchNameMember: React.FC<InputSearchNameMemberProps> = ({ members }
         <AutoComplete
             status={(input === "" || indexOfLabel !== -1) ? "" : "warning"}
             placeholder="ค้นหาชื่อสมาชิก"
-            style={{ width: "50vw" }}
+            style={{ width: "30vw" }}
             size='middle'
             value={input}
             onChange={onChange}

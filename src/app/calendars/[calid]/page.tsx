@@ -29,10 +29,10 @@ export default async function CalendarPage({ params }: { params: Promise<{ calid
     <main>
       <Row>
         <Col span={20}>
-          <div className="mx-2 my-5 flex flex-row gap-5">
+          {/* <div className="mx-2 my-5 flex flex-row gap-5">
             <ProfileOutlined color="blue" />
             <InputSearchNameMember members={respMembers.data.data.data} />
-          </div>
+          </div> */}
           <TaskCalendar dataSource={respTasks.data.data} />
         </Col>
         <Col span={4}>

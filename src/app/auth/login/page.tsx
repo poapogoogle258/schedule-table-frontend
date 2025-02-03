@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Content from "@/app/components/content";
+import Content from "@/app/layout/content";
 import LoginAction from "./lib/login_action"
 
 export default function LoginPage() {

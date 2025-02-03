@@ -3,12 +3,12 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
+
 import "./globals.css"
 
 import theme from './theme-config';
-import { ConfigProvider, Layout, App } from 'antd';
+import { ConfigProvider, App } from 'antd';
 
-import Footer from "./components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,12 +35,9 @@ export default function RootLayout({
       <AntdRegistry>
         <ConfigProvider theme={theme}>
           <body className={`${geistSans.variable} ${geistMono.variable}`}>
-            <Layout>
               <App>
                 {children}
               </App>
-              <Footer />
-            </Layout>
           </body>
         </ConfigProvider>
       </AntdRegistry>

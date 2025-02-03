@@ -4,14 +4,21 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import type { MenuProps } from 'antd';
-import { Menu, Button } from 'antd';
+import { Menu, Button, Layout } from 'antd';
 import { MenuOutlined } from "@ant-design/icons"
 
+import CalendarIcon from "@/icon/calendar"
+import UserGroupIcon from "@/icon/userGroup"
+import AppointmentIcon from "@/icon/appointment"
+import LeavingIcon from "@/icon/Leaving"
+
+
+
+const { Sider } = Layout
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-
-const MyNavbar: React.FC = () => {
+const MySider: React.FC = () => {
     const { calid } = useParams<{ calid: string }>()
     const pathname = usePathname()
     const currentDefault = useMemo(() => {
@@ -35,6 +42,11 @@ const MyNavbar: React.FC = () => {
 
     }, [])
     const [current, setCurrent] = useState(currentDefault);
+    const [collapsed, setCollapsed] = useState<boolean>(false)
+
+    useEffect(() => {
+        console.log("collapsed", collapsed)
+    }, [collapsed])
 
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
@@ -43,6 +55,7 @@ const MyNavbar: React.FC = () => {
     const items: MenuItem[] = [
         {
             key: "calendar",
+            icon: <CalendarIcon />,
             label: (
                 <div className='w-[5vw] grid justify-items-center'>
                     <Link href={`\\calendars\\${calid}`}>ตารางเวร</Link>
@@ -51,6 +64,7 @@ const MyNavbar: React.FC = () => {
         },
         {
             key: "schedule",
+            icon: <AppointmentIcon />,
             label: (
                 <div className='w-[5vw] grid justify-items-center'>
                     <Link href={`\\calendars\\${calid}\\schedules`}>การจัดเวร</Link>
@@ -59,6 +73,8 @@ const MyNavbar: React.FC = () => {
         },
         {
             key: "member",
+            icon: <UserGroupIcon />,
+
             label: (
                 <div className='w-[5vw] grid justify-items-center'>
                     <Link href={`\\calendars\\${calid}\\members`}>สมาชิก</Link>
@@ -67,34 +83,42 @@ const MyNavbar: React.FC = () => {
         },
         {
             key: "leave",
+            icon: <LeavingIcon />,
+
             disabled: true,
             label: (
                 <div className='w-[5vw] grid justify-items-center'>
                     <h3>วันหยุดวันลา</h3>
-
                     {/* <Link href={`\\calendars\\${calid}\\leaves`}>วันหยุดวันลา</Link> */}
                 </div>
             )
         },
     ];
 
-
     return (
-        <div className='max-h-20 pl-10 py-1 bg-white flex'>
-            <div className='h-full justify-self-center'>
-                <img className='h-16' src="/logo.png" alt="logo schedule table" />
+        <div>
+            <div className='min-h-16 max-w-[80px] flex justify-center items-center'>
+                <Button type='text' icon={<MenuOutlined />} onClick={() => { setCollapsed(!collapsed) }} />
             </div>
-            <div className='w-full min-h-full'>
-                <Menu
-                    className='h-full flex items-center justify-start gap-1'
-                    style={{ borderBottom: "none" }}
-                    onClick={onClick}
-                    selectedKeys={[current]}
-                    mode="horizontal"
-                    items={items} />
+            <div className='min-h-screen max-h-full bg-white'>
+                <Sider trigger={null} theme='light' collapsible collapsed={collapsed} >
+                    <div className='w-full py-5'>
+                        <div className="pt-10">
+                            <Menu
+                                style={{ border: "none" }}
+                                onClick={onClick}
+                                mode="inline"
+                                selectedKeys={[current]}
+                                items={items}
+                            />
+                        </div>
+                    </div>
+                </Sider>
             </div>
         </div>
+
     );
 };
 
-export default MyNavbar;
+export default MySider;
+
