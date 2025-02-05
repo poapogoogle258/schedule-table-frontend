@@ -5,7 +5,7 @@ import type { Member } from "@/type/member"
 
 import { AutoComplete, Button } from 'antd';
 import type { AutoCompleteProps } from 'antd';
-import { useCalendarPageStore } from "@/state/provider/calendar-page-provider";
+import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provider";
 
 interface InputSearchNameMemberProps {
     members: Member[]

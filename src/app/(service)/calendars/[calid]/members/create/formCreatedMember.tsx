@@ -8,7 +8,7 @@ import { Button, Form, Input, Flex, ColorPicker } from "antd";
 import { useParams } from "next/navigation";
 
 import { uploadImageUrl } from "@/api/client"
-import UploadProfile from "@/components/uploadProfile"
+import UploadProfile from "@/app/components/uploadProfile"
 import createNewMemberAction from './actionCreateMember'
 
 import type { FormDataMember } from "@/type/form"

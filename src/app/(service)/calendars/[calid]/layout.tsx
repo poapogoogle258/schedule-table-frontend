@@ -1,4 +1,4 @@
-import { CalendarPageProvider } from "@/state/provider/calendar-page-provider";
+import { CalendarPageProvider } from "@/app/state/provider/calendar-page-provider";
 
 export default async function RootLayout({
   children,

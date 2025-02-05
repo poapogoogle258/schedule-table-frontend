@@ -3,7 +3,7 @@
 import { type ReactNode, createContext, useRef, useContext } from 'react'
 import { useStore } from 'zustand'
 
-import { type CollapsedStore, createCollapsedStore } from '@/state/stores/switch-menu-store'
+import { type CollapsedStore, createCollapsedStore } from '@/app/state/stores/switch-menu-store'
 
 export type CollapsedStoreApi = ReturnType<typeof createCollapsedStore>
 

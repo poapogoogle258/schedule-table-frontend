@@ -3,10 +3,10 @@
 import React from 'react';
 
 import { Form, Input,Flex,Button,InputNumber } from 'antd';
-import UploadProfile from "@/components/uploadProfile"
+import UploadProfile from "@/app/components/uploadProfile"
 
 import { uploadImageUrl } from '@/api/client';
-import MyDatePicker  from '@/components/datePicker';
+import MyDatePicker  from '@/app/components/datePicker';
 import MyTimePicker from './timePicker';
 
 import type { Schedule } from '@/api/schedules';
@@ -14,9 +14,9 @@ import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs'
 dayjs().format()
 
-import CheckboxGroupMonth from '@/components/checkboxGroupMonth';
-import CheckboxGroupDay from "@/components/checkboxGroupDay"
-import RadioGroupFreq from "@/components/radioGroupFreq"
+import CheckboxGroupMonth from '@/app/components/checkboxGroupMonth';
+import CheckboxGroupDay from "@/app/components/checkboxGroupDay"
+import RadioGroupFreq from "@/app/components/radioGroupFreq"
 
 const { TextArea } = Input;
 

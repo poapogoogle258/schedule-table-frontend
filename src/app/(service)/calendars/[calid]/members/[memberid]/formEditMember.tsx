@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { Button, Form, Input, Flex, ColorPicker } from "antd";
-import UploadProfile from "@/components/uploadProfile"
+import UploadProfile from "@/app/components/uploadProfile"
 import { useRouter, useParams } from 'next/navigation'
 
 import actionEditMember from './actionEditMember'

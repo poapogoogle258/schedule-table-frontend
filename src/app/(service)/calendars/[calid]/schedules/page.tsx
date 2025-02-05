@@ -5,7 +5,7 @@ import React from 'react';
 import { fetchSchedules } from "@/api/schedules"
 import { cookies } from 'next/headers';
 
-import CardSchedule from "@/components/cardSchedule"
+import CardSchedule from "@/app/components/cardSchedule"
 import Link from 'next/link';
 import { Row, Col, Grid } from "antd"
 

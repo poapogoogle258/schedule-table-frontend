@@ -3,22 +3,22 @@
 import React, { useState, useRef, useCallback } from 'react';
 
 import { Form, Input, Flex, Button, InputNumber } from 'antd';
-import UploadProfile from "@/components/uploadProfile"
+import UploadProfile from "@/app/components/uploadProfile"
 import { useParams } from 'next/navigation';
 
 import { uploadImageUrl } from '@/api/client';
-import MyDatePicker from '@/components/datePicker';
+import MyDatePicker from '@/app/components/datePicker';
 import MyTimePicker from '../../../../components/timePicker';
 
 import type { Dayjs } from 'dayjs';
 import type { Schedule } from '@/type/schedule';
 import type { Member } from '@/type/member';
 
-import CheckboxGroupMonth from '@/components/checkboxGroupMonth';
-import CheckboxGroupDay from "@/components/checkboxGroupDay"
-import RadioGroupFreq from "@/components/radioGroupFreq"
-import SelectMemberTable from "@/components/selectMemberTable"
-import SelectScheduleTable from '@/components/selectMasterSchedule';
+import CheckboxGroupMonth from '@/app/components/checkboxGroupMonth';
+import CheckboxGroupDay from "@/app/components/checkboxGroupDay"
+import RadioGroupFreq from "@/app/components/radioGroupFreq"
+import SelectMemberTable from "@/app/components/selectMemberTable"
+import SelectScheduleTable from '@/app/components/selectMasterSchedule';
 import dayjs from 'dayjs';
 
 import ActionUpdateSchedule from "./actionEditSchedule"

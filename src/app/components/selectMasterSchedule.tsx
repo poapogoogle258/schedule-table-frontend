@@ -8,7 +8,7 @@ import { EditOutlined } from '@ant-design/icons'
 import type { Schedule } from "@/type/schedule"
 import type { Member } from "@/type/member"
 
-import ButtonDeleteMember from "@/components/buttonDeleteMember"
+import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 

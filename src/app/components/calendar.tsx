@@ -9,7 +9,7 @@ import type { Task } from "@/type/task"
 import dayjs from "dayjs"
 import type { CellRenderInfo } from 'rc-picker/lib/interface';
 
-import { useCalendarPageStore } from "@/state/provider/calendar-page-provider"
+import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provider"
 
 
 export default function TaskCalendar({ dataSource }: { dataSource: Task[] }) {

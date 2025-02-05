@@ -3,9 +3,9 @@
 import React from "react"
 
 import { Row, Col } from "antd"
-import TaskCalendar from "@/components/calendar"
-import ScheduleDescriptionTable from "@/components/scheduleDescriptionTable"
-import InputSearchNameMember from "@/components/inputSearchName"
+import TaskCalendar from "@/app/components/calendar"
+import ScheduleDescriptionTable from "@/app/components/scheduleDescriptionTable"
+import InputSearchNameMember from "@/app/components/inputSearchName"
 
 import { fetchTasks } from "@/api/tasks"
 import { fetchMembers } from "@/api/members"

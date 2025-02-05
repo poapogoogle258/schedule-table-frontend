@@ -6,13 +6,13 @@ import Link from 'next/link';
 import type { MenuProps } from 'antd';
 import { Menu, Layout, Grid } from 'antd';
 
-import CalendarIcon from "@/components/icon/calendar"
-import UserGroupIcon from "@/components/icon/userGroup"
-import AppointmentIcon from "@/components/icon/appointment"
-import LeavingIcon from "@/components/icon/Leaving"
-import FileIcon from "@/components/icon/file"
+import CalendarIcon from "@/app/components/icon/calendar"
+import UserGroupIcon from "@/app/components/icon/userGroup"
+import AppointmentIcon from "@/app/components/icon/appointment"
+import LeavingIcon from "@/app/components/icon/Leaving"
+import FileIcon from "@/app/components/icon/file"
 
-import { useCollapseStore } from '@/state/provider/switch-menu-provider';
+import { useCollapseStore } from '@/app/state/provider/switch-menu-provider';
 
 const { Sider } = Layout
 const { useBreakpoint } = Grid

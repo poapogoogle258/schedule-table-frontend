@@ -6,7 +6,7 @@ import { fetchMembers } from "@/api/members"
 
 import { cookies } from "next/headers";
 
-import MembersTable from "@/components/membersTable";
+import MembersTable from "@/app/components/membersTable";
 
 import Link from 'next/link';
 

@@ -5,9 +5,9 @@ import { Button } from "antd"
 import { MenuOutlined } from "@ant-design/icons"
 import { Header } from 'antd/es/layout/layout';
 
-import UserCircleIcon from "@/components/icon/user_circleIcon"
+import UserCircleIcon from "@/app/components/icon/user_circleIcon"
 
-import { useCollapseStore } from "@/state/provider/switch-menu-provider";
+import { useCollapseStore } from "@/app/state/provider/switch-menu-provider";
 
 
 const MyHeader: React.FC = () => {

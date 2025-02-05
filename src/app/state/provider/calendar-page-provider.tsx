@@ -3,7 +3,7 @@
 import { type ReactNode, createContext, useRef, useContext } from 'react'
 import { useStore } from 'zustand'
 
-import { type CalendarPageStore , createCalendarStore, initCalendarPage } from '@/state/stores/calendar-page-store'
+import { type CalendarPageStore , createCalendarStore, initCalendarPage } from '@/app/state/stores/calendar-page-store'
 
 export type CalendarPageStoreApi = ReturnType<typeof createCalendarStore>
 

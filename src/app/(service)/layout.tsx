@@ -1,13 +1,11 @@
 import { Layout } from "antd"
 
-import MyFooter from "@/components/layout/footer"
-import MyHeader from "@/components/layout/header"
-import MySider from "@/components/layout/sider";
-import MyContent from "@/components/layout/content";
+import MyFooter from "@/app/components/layout/footer"
+import MyHeader from "@/app/components/layout/header"
+import MySider from "@/app/components/layout/sider";
+import MyContent from "@/app/components/layout/content";
 
-
-import { CollapsedStoreProvider } from "@/state/provider/switch-menu-provider";
-
+import { CollapsedStoreProvider } from "@/app/state/provider/switch-menu-provider";
 
 export default async function RootLayout({
     children,
@@ -18,7 +16,7 @@ export default async function RootLayout({
     return <>
         <Layout>
             <CollapsedStoreProvider>
-                <MyHeader />
+                <MyHeader/>
                 <Layout>
                     <MySider />
                     <MyContent>

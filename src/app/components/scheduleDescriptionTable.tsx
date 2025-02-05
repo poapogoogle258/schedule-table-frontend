@@ -6,7 +6,7 @@ import { AntDesignOutlined, UserOutlined } from "@ant-design/icons"
 
 import dayjs from "dayjs"
 
-import { useCalendarPageStore } from "@/state/provider/calendar-page-provider";
+import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provider";
 
 import type { Task, Person, Description } from "@/type/task";
 import type { Member } from "@/type/member";
