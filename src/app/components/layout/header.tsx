@@ -10,7 +10,6 @@ import UserCircleIcon from "@/app/components/icon/user_circleIcon"
 import { useCollapseStore } from "@/app/state/provider/switch-menu-provider";
 import { signOut, useSession } from "next-auth/react";
 
-
 const MyHeader: React.FC = () => {
     const { data : session } = useSession()
     const { switchCollapsed } = useCollapseStore((state) => state)

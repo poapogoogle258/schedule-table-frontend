@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import type { MenuProps } from 'antd';
@@ -46,21 +46,36 @@ const MySider: React.FC = () => {
     }, [])
 
     const [current, setCurrent] = useState(currentDefault);
-    const { collapsed , switchCollapsed } = useCollapseStore((state) => state)
+    const { collapsed, switchCollapsed } = useCollapseStore((state) => state)
+    const [autoHide, setAutoHide] = useState(false)
+
+    useEffect(() => {
+        switchCollapsed(autoHide)
+    }, [autoHide])
 
     const collapsedWidth = useMemo(() => {
         if (breakpoint.xs) {
-            if(collapsed === false){
-                switchCollapsed(true)
-            }
+            setAutoHide(true)
             return 0
         } else {
+            setAutoHide(false)
             return 80 // default width Rider
+        }
+    }, [breakpoint])
+
+    const width = useMemo(() => {
+        if (breakpoint.xs) {
+            return '100%'
+        } else {
+            return 200 // default width Rider
         }
     }, [breakpoint])
 
 
     const onClick: MenuProps['onClick'] = (e) => {
+        if(autoHide && !collapsed){
+            switchCollapsed(true)
+        }
         setCurrent(e.key);
     };
 
@@ -118,10 +133,10 @@ const MySider: React.FC = () => {
     ];
 
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed} collapsedWidth={collapsedWidth}>
+        <Sider trigger={null} collapsible collapsed={collapsed} collapsedWidth={collapsedWidth} width={width}>
             <div className='h-screen max-h-full pt-3'>
                 <Menu
-                    style={{ border: "none", background : "#f5f5f5" }}
+                    style={{ border: "none", background: "#f5f5f5" }}
                     onClick={onClick}
                     mode="inline"
                     selectedKeys={[current]}

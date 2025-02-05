@@ -20,7 +20,6 @@ export default async function RootLayout({
         <Layout>
             <CollapsedStoreProvider>
                 <SessionProvider>
-
                     <MyHeader />
                     <Layout>
                         <MySider />
