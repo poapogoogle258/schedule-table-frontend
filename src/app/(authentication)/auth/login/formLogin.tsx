@@ -4,10 +4,14 @@ import React from "react";
 import Content from "@/app/components/layout/content";
 
 import { useActionState } from 'react';
-import { signIn } from "next-auth/react";
 import { authenticate } from "./lib/login_action"
+import { signIn } from "next-auth/react";
 
 export default function FormLogin() {
+
+    const googleSingIn = async () => {
+        await signIn('google')
+    }
 
     const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
 
@@ -30,7 +34,7 @@ export default function FormLogin() {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <form action={formAction}>
+                        <form action={formAction} >
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium leading-5  text-gray-700">Email address</label>
                                 <div className="mt-1 relative rounded-md shadow-sm">
@@ -66,6 +70,9 @@ export default function FormLogin() {
                                 </div>
                             </div>
 
+                            <div className="container mx-auto h-5 text-red-400 flex justify-center items-center">
+                                {errorMessage}
+                            </div>
                             <div className="flex flex-col gap-3 mt-6">
                                 <span className="block w-full rounded-md shadow-sm">
                                     <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
@@ -73,7 +80,7 @@ export default function FormLogin() {
                                     </button>
                                 </span>
                                 <div className="block w-full rounded-md shadow-sm">
-                                    <button type='button' onClick={() => signIn('google')} className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-slate-200  hover:bg-slate-400 focus:outline-none   transition duration-150 ease-in-out">
+                                    <button disabled={!isPending} onClick={googleSingIn} type='button' className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-slate-200  hover:bg-slate-400 focus:outline-none   transition duration-150 ease-in-out">
                                         Google Sign in
                                     </button>
                                 </div>
@@ -86,3 +93,4 @@ export default function FormLogin() {
         </Content>
     </>
 }
+

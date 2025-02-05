@@ -58,7 +58,7 @@ export const authOptions: NextAuthConfig = {
                     description: token.user_description,
                     calendar_id: token.user_calendar_id,
                 }
-                session.exp = token.exp;
+                session.expires = token.exp;
                 session.token = token.token;
             }
 
@@ -79,8 +79,7 @@ export const authOptions: NextAuthConfig = {
         },
     },
     pages: {
-        signIn: '/auth/login',
-        signUp: '/auth/signup',
+        signIn: '/auth/login'
     },
 };
 

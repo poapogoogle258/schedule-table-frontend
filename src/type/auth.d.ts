@@ -17,8 +17,6 @@ declare module "next-auth" {
     interface Session {
         user: User;
         token: string;
-        exp: string;
-        user: Profile;
         expires: string;
     }
 }

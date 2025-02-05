@@ -9,7 +9,6 @@ import MembersTable from "@/app/components/membersTable";
 import Link from 'next/link';
 import { auth } from "@/auth";
 
-
 export default async function MembersManagement({ params, searchParams }: { params: Promise<{ calid: string }>, searchParams: Promise<{ page?: string, limit?: string }> }) {
 
     const query = new URLSearchParams(await searchParams)
@@ -23,7 +22,6 @@ export default async function MembersManagement({ params, searchParams }: { para
     const calendarId = (await params).calid
     const session = await auth()
     const token = session!.token
-
 
     const { data: { data: data } } = await fetchMembers(calendarId, query.toString(), token) // ha ha ha
 

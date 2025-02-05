@@ -7,6 +7,9 @@ import MyContent from "@/app/components/layout/content";
 
 import { CollapsedStoreProvider } from "@/app/state/provider/switch-menu-provider";
 
+import { SessionProvider } from "next-auth/react";
+
+
 export default async function RootLayout({
     children,
 }: Readonly<{
@@ -16,14 +19,17 @@ export default async function RootLayout({
     return <>
         <Layout>
             <CollapsedStoreProvider>
-                <MyHeader/>
-                <Layout>
-                    <MySider />
-                    <MyContent> 
-                        {children}
-                    </MyContent>
-                </Layout>
-                <MyFooter />
+                <SessionProvider>
+
+                    <MyHeader />
+                    <Layout>
+                        <MySider />
+                        <MyContent>
+                            {children}
+                        </MyContent>
+                    </Layout>
+                    <MyFooter />
+                </SessionProvider>
             </CollapsedStoreProvider>
         </Layout>
     </>
