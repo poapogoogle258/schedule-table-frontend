@@ -10,17 +10,18 @@ import InputSearchNameMember from "@/app/components/inputSearchName"
 import { fetchTasks } from "@/api/tasks"
 import { fetchMembers } from "@/api/members"
 
-import { cookies } from 'next/headers'
+import { auth } from '@/auth'
 
 export default async function CalendarPage({ params }: { params: Promise<{ calid: string }> }) {
 
-  const cookiesStone = await cookies()
   const calendarId = (await params).calid
+
+  const session = await auth()
 
   const start = new Date("2025-01-01 00:00:00")
   const end = new Date("2025-02-28 00:00:00")
 
-  const token = cookiesStone.get("token")!.value
+  const token = session!.token
 
   const [respTasks, respMembers] = await Promise.all([fetchTasks(calendarId, start, end, token), fetchMembers(calendarId, "all=1", token)])
 

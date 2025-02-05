@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
-
 import "./globals.css"
 
 import theme from './theme-config';
+
 import { ConfigProvider, App } from 'antd';
 
 
@@ -30,14 +30,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <AntdRegistry>
         <ConfigProvider theme={theme}>
           <body className={`${geistSans.variable} ${geistMono.variable}`}>
-              <App>
+            <App>
                 {children}
-              </App>
+            </App>
           </body>
         </ConfigProvider>
       </AntdRegistry>

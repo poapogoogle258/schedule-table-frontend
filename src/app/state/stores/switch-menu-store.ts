@@ -1,17 +1,17 @@
 import { createStore } from 'zustand/vanilla'
 
 export type CollapsedState = {
-    collapsed : boolean
+  collapsed: boolean
 }
 
 export type CollapsedActions = {
-  switchCollapsed : () => void
+  switchCollapsed: (collapsed?: boolean) => void
 }
 
 export type CollapsedStore = CollapsedActions & CollapsedState
 
 export const defaultInitState: CollapsedState = {
-    collapsed: false,
+  collapsed: false,
 }
 
 export const createCollapsedStore = (
@@ -19,6 +19,6 @@ export const createCollapsedStore = (
 ) => {
   return createStore<CollapsedStore>()((set) => ({
     ...initState,
-    switchCollapsed: () => set((state) => ({ collapsed: !state.collapsed })),
+    switchCollapsed: (collapsed?: boolean) => set((state) => ({ collapsed: (collapsed === undefined) ? !state.collapsed : collapsed  })),
   }))
 }

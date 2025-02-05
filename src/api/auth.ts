@@ -2,6 +2,7 @@ import client from "./client";
 import type { Response } from "./client";
 
 export interface LoginResponse {
+    profile : ProfileRes
     token: string
     exp: number
 }
@@ -12,7 +13,7 @@ export interface ProfileRes {
     email: string
     imageURL: string
     description: string
-    calendar_id?: string
+    calendar_id: string
 }
 
 export async function login(email: string, password: string) {
@@ -29,6 +30,4 @@ export async function fetchProfile(token: string) {
     })
 
     return response.data
-
-
 }

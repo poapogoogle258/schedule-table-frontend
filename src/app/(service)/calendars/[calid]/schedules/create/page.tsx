@@ -2,19 +2,18 @@
 
 import React from "react";
 
-import { cookies } from "next/headers";
-
 import FormCreateSchedule from "./formCreateSchedule";
 
 import { fetchMembers } from "@/api/members";
 import { fetchSchedules } from "@/api/schedules";
+import { auth } from "@/auth";
 
 export default async function CreateSchedulePage({ params }: { params: Promise<{ calid: string }> }) {
 
     const calendarId = (await params).calid
 
-    const cookiesStone = await cookies()
-    const token = cookiesStone.get("token")!.value
+    const session = await auth()
+    const token = session!.token
 
     const [resp_members, resp_schedule] = await Promise.all([fetchMembers(calendarId, "all=true", token), fetchSchedules(calendarId, token)])
 

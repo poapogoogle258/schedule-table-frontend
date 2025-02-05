@@ -3,18 +3,18 @@
 import React from 'react';
 
 import { fetchSchedules } from "@/api/schedules"
-import { cookies } from 'next/headers';
 
 import CardSchedule from "@/app/components/cardSchedule"
 import Link from 'next/link';
 import { Row, Col, Grid } from "antd"
+import { auth } from '@/auth';
 
 export default async function SchedulePage({ params }: { params: Promise<{ calid: string }> }) {
 
     const calendarId = (await params).calid
 
-    const cookiesStone = await cookies()
-    const token = cookiesStone.get("token")!.value
+    const session = await auth()
+    const token = session!.token
 
     const resp = await fetchSchedules(calendarId, token)
 

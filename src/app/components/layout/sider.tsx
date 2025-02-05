@@ -44,16 +44,20 @@ const MySider: React.FC = () => {
         }
 
     }, [])
+
+    const [current, setCurrent] = useState(currentDefault);
+    const { collapsed , switchCollapsed } = useCollapseStore((state) => state)
+
     const collapsedWidth = useMemo(() => {
         if (breakpoint.xs) {
+            if(collapsed === false){
+                switchCollapsed(true)
+            }
             return 0
         } else {
             return 80 // default width Rider
         }
     }, [breakpoint])
-
-    const [current, setCurrent] = useState(currentDefault);
-    const { collapsed } = useCollapseStore((state) => state)
 
 
     const onClick: MenuProps['onClick'] = (e) => {

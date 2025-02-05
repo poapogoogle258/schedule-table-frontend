@@ -5,14 +5,14 @@ import type { ServerActionError } from "@/type/serverAction"
 import type { CreateSchedule } from "@/type/schedule"
 
 import { createSchedule } from "@/api/schedules"
-import { cookies } from "next/headers"
 // import { revalidatePath } from "next/cache"
 import { permanentRedirect } from 'next/navigation'
+import { auth } from "@/auth"
 
 export default async function ActionCreateSchedule(calendarId : string ,data : ScheduleFormData) : Promise<ServerActionError> {
     
-    const cookiesStone = await cookies()
-    const token = cookiesStone.get("token")!.value
+    const session = await auth()
+    const token = session!.token
 
     const payloads: CreateSchedule = {
         name: data.name,
@@ -27,6 +27,7 @@ export default async function ActionCreateSchedule(calendarId : string ,data : S
         hr_end: data.hr_end!,
         tzid: "Asia/Bangkok", // TO DO : load from dayjs 
         breaktime: data.breaktime,
+        use_number_people: data.use_number_people,
         recurrence: {
             freq: data.freq,
             count: data.count,

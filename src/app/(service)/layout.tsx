@@ -19,7 +19,7 @@ export default async function RootLayout({
                 <MyHeader/>
                 <Layout>
                     <MySider />
-                    <MyContent>
+                    <MyContent> 
                         {children}
                     </MyContent>
                 </Layout>

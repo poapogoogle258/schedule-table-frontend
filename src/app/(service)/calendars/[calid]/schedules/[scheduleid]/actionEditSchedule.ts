@@ -5,13 +5,13 @@ import type { ServerActionError } from "@/type/serverAction"
 import type { Schedule } from "@/type/schedule"
 
 import { updateSchedule } from "@/api/schedules"
-import { cookies } from "next/headers"
 import { permanentRedirect } from 'next/navigation'
+import { auth } from "@/auth"
 
 export default async function ActionUpdateSchedule(calendarId : string ,scheduleId : string ,data : ScheduleFormData) : Promise<ServerActionError> {
     
-    const cookiesStone = await cookies()
-    const token = cookiesStone.get("token")!.value
+    const session = await auth()
+    const token = session!.token
 
     const payloads: Schedule = {
         id:scheduleId,
