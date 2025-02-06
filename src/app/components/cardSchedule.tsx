@@ -19,7 +19,12 @@ interface ButtonModalDeleteProps {
     name: string
 }
 
-const ButtonLinkEdit: React.FC<{ calendarId: string, scheduleId: string }> = ({ calendarId, scheduleId }) => {
+interface ButtonLinkEditProps {
+    calendarId: string
+    scheduleId: string 
+}
+
+const ButtonLinkEdit: React.FC<ButtonLinkEditProps> = ({ calendarId, scheduleId }) => {
     return (
         <Link href={`/calendars/${calendarId}/schedules/${scheduleId}`}>
             <Button
@@ -66,7 +71,6 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
                 disabled={isLoading}
                 key="cancel"
                 onClick={handleCancel}
-
             >
                 ยกเลิก
             </Button>
@@ -85,7 +89,7 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
                 open={isModalOpen} onOk={handleOk}
                 title={`ต้องการลบเวร ${name} หรือไม่`}
                 onCancel={handleCancel}
-                footer={[<ButtonSubmitDelete />, <ButtonCancelDelete />]}
+                footer={[<ButtonSubmitDelete key={`model-submit-delete-${scheduleId}`} />, <ButtonCancelDelete key={`model-cancel-delete-${scheduleId}`} />]}
             >
                 <p>คำเตือน</p>
                 <p>1. หากลบแล้วเวรต่างที่ถูกจัดขึ้นมาจะถูกยกเลิก</p>
@@ -109,8 +113,8 @@ const CardSchedule: React.FC<CardScheduleProps> = ({ schedule }) => {
     ) : null;
 
     const actions: React.ReactNode[] = [
-        <ButtonLinkEdit calendarId={schedule.calendar_id} scheduleId={schedule.id} />,
-        <ButtonModalDelete calendarId={schedule.calendar_id} scheduleId={schedule.id} name={schedule.name} />,
+        <ButtonLinkEdit key={`action-edit-${schedule.calendar_id}`} calendarId={schedule.calendar_id} scheduleId={schedule.id} />,
+        <ButtonModalDelete key={`action-delete-${schedule.calendar_id}`} calendarId={schedule.calendar_id} scheduleId={schedule.id} name={schedule.name} />,
     ];
 
     return (
