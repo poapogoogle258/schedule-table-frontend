@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-
 import "./globals.css"
 
-import theme from './theme-config';
-
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, App } from 'antd';
-
+import '@ant-design/v5-patch-for-react-19';
+import theme from './theme-config';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -29,7 +29,7 @@ const initDataForm = {
     "name": "",
     "nickname": "",
     "description": "",
-    "phone": "",
+    "telephone": "",
     "email": "",
     "color": "#000000",
     "position": ""
@@ -74,7 +74,7 @@ export default function FormCreatedMember() {
         }}>
             <ColorPicker disabledAlpha />
         </Form.Item>
-        <Form.Item label="เบอร์โทร" name="phone" rules={[{ pattern: new RegExp("^[0-9]{10}$"), message: 'กรุณากรอกเบอร์โทร', whitespace: true }]}>
+        <Form.Item label="เบอร์โทร" name="telephone" rules={[{ pattern: new RegExp("^[0-9]{10}$"), message: 'กรุณากรอกเบอร์โทร', whitespace: true }]}>
             <Input placeholder="081000000" />
         </Form.Item>
         <Form.Item label="อีเมลล์" name="email" rules={[{ type: 'email', message: 'กรุณากรอกอีเมลล์' }]}>
