@@ -97,10 +97,10 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
         },
     };
 
-    const setSelectMember = useCallback((data: Member[]) => {
+    const setSelectMember = (data: Member[]) => {
         form.setFieldValue('members', data);
-    }, [form])
-
+    }
+    
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
 
     const onFinish = async (formData : ScheduleFormData) => {
