@@ -1,16 +1,12 @@
 "use client"
 
 import React, { useState } from "react"
-import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
-import type { PaginationProps, TableProps } from 'antd';
-import { EditOutlined } from '@ant-design/icons'
+import { Table, TableColumnsType, Button } from 'antd';
+import type { TableProps } from 'antd';
 
 import type { Schedule } from "@/type/schedule"
 import type { Member } from "@/type/member"
 
-import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 type DataType = {
     key: React.Key;
@@ -28,12 +24,12 @@ interface SelectMasterScheduleTableProp {
     onChange?: onChangeState
     setSelectMember: onChangeSelectMember
     setLockSelectMembers: onChangeLockSelectMember
-    except? : string
+    except?: string
 }
 
 const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ dataSource, value, onChange, setSelectMember, setLockSelectMembers, except }) => {
 
-    const data = dataSource.filter((item) => item.master_id == null && item.id != except! ).map((item, index) => ({
+    const data = dataSource.filter((item) => item.master_id == null && item.id != except!).map((item, index) => ({
         key: item.id,
         name: item.name,
         description: item.description
@@ -60,23 +56,23 @@ const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ da
             key: "name",
             title: 'ชื่อ',
             dataIndex: 'name',
+            width: "100%",
             render: (_, record) => dataSource.length >= 1 ? <>
-                <Flex vertical gap='small'>
-                    <Flex><h3>{record.name}</h3></Flex>
-                    <h5 style={{ opacity: '0.5' }}>{record.description}</h5>
-                </Flex>
+                <div className='max-w-xs flex flex-col'>
+                    <h3>{record.name}&nbsp;({record.name})</h3>
+                    <h5 className="line-clamp-3 break-words" style={{ opacity: '0.5' }}>{record.description}</h5>
+                </div>
             </> : null
         }
     ];
 
     return <>
-        {keySelected.length != 0 && <Button type="link" className="px-3" onClick={() => { SetKeySelected([]);setSelectMember([]);setLockSelectMembers(false); }} >
+        <Button disabled={keySelected.length === 0} type="link" onClick={() => { SetKeySelected([]); setSelectMember([]); setLockSelectMembers(false); }} >
             <p className="font-thin italic text-blue-500 hover:text-blue-800">
                 cancel
             </p>
-        </Button>}
+        </Button>
         <Table
-            className='mx-5'
             bordered
             dataSource={data}
             columns={columns}
@@ -84,6 +80,7 @@ const SelectMasterScheduleTable: React.FC<SelectMasterScheduleTableProp> = ({ da
             rowSelection={{ type: 'radio', ...rowSelection }}
         />
     </>
+
 
 }
 

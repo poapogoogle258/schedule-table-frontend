@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 
 import { uploadImageUrl } from '@/api/client';
 import MyDatePicker from '@/app/components/datePicker';
-import MyTimePicker from '../../../../components/timePicker';
+import MyTimePicker from '@/app/components/timePicker';
 
 import type { Dayjs } from 'dayjs';
 import type { Schedule } from '@/type/schedule';
@@ -48,7 +48,7 @@ export interface ScheduleFormData {
     interval: number
     byweekday: number[]
     bymonth: number[]
-    scheduleMasterId: string | null
+    master_id: string | null
     members: Member[] | null
     use_number_people : number
 }
@@ -83,7 +83,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
         "interval": schedule.recurrence.interval,
         "byweekday": schedule.recurrence.byweekday,
         "bymonth": schedule.recurrence.bymonth,
-        "scheduleMasterId": schedule.master_id,
+        "master_id": schedule.master_id,
         "members": schedule.members,
         "use_number_people" : schedule.use_number_people
     }
@@ -99,7 +99,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
 
     const setSelectMember = useCallback((data: Member[]) => {
         form.setFieldValue('members', data);
-    }, [])
+    }, [form])
 
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
 
@@ -119,7 +119,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
             if(!value){
                 return Promise.reject(new Error("เลือกวันเริ่มต้น"));
             }
-            else if(now.isAfter(value,'date')){
+            else if(now.isAfter(value,'date') && now.isSame(schedule.start)){
                 return Promise.reject(new Error("เลือกวันเริ่มต้นได้ตั้งแต่วันนี้เป็นต้นไป"));
             }
             return Promise.resolve()
@@ -146,7 +146,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
         const labelForm = [
             ["name", "imageURL", "description", "priority"],
             ["start","end", "hr_start", "hr_end", "breaktime", "freq", "count", "interval", "byweekday", "bymonth"],
-            ["scheduleMasterId", "members"]
+            ["master_id", "members"]
         ]
 
         try {
@@ -233,7 +233,7 @@ const FormEditSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedule
                  <Form.Item label="จำนวนเข้าเวรครั้งละ" name="use_number_people">
                     <InputNumber/>
                 </Form.Item>
-                <Form.Item label="scheduleMaster" name="scheduleMaster">
+                <Form.Item label="scheduleMaster" name="master_id">
                     <SelectScheduleTable
                         dataSource={schedules}
                         setSelectMember={setSelectMember}

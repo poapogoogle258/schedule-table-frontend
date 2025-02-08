@@ -5,6 +5,7 @@ import { editMember } from "@/api/members"
 
 import type { ServerActionError } from "@/type/serverAction"
 import type { FormDataMember } from "@/type/form"
+import { redirect } from "next/navigation"
 import { auth } from "@/auth"
 
 
@@ -21,5 +22,6 @@ export default async function actionEditMember(calendarId: string, memberId: str
         }
     }
 
+    redirect(`/calendars/${calendarId}/members`)
 
 }

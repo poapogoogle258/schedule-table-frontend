@@ -2,13 +2,13 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 
-import { Form, Input, Flex, Button, InputNumber } from 'antd';
+import { Form, Input, Button, InputNumber } from 'antd';
 import UploadProfile from "@/app/components/uploadProfile"
 import { useParams } from 'next/navigation';
 
 import { uploadImageUrl } from '@/api/client';
 import MyDatePicker from '@/app/components/datePicker';
-import MyTimePicker from '../../../../components/timePicker';
+import MyTimePicker from '@/app/components/timePicker';
 
 import type { Dayjs } from 'dayjs';
 import type { Schedule } from '@/type/schedule';
@@ -48,7 +48,7 @@ export interface ScheduleFormData {
     interval: number
     byweekday: number[]
     bymonth: number[]
-    scheduleMasterId: string | null
+    master_id: string | null
     members: Member[] | null
     use_number_people: number
 }
@@ -79,7 +79,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
         "interval": 1,
         "byweekday": [],
         "bymonth": [],
-        "scheduleMasterId": null,
+        "master_id": null,
         "members": [],
         "use_number_people": 1
     }
@@ -95,7 +95,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
 
     const setSelectMember = useCallback((data: Member[]) => {
         form.setFieldValue('members', data);
-    }, [])
+    }, [form])
 
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
 
@@ -122,7 +122,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
         },
         "hr_end": (_: any, value: string) => {
             if (value == undefined) {
-                return Promise.reject(new Error("กรุณาระบุเวลาสิ้นสุด00"))
+                return Promise.reject(new Error("กรุณาระบุเวลาสิ้นสุด"))
             }
             else if (value == form.getFieldValue("hr_start")) {
                 return Promise.reject(new Error("เวลาเริ่มกับเวลาสิ่นสุดห้ามเหมือนกันไม่เกิน 24 ชั่วโมง"))
@@ -141,7 +141,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
     const validatePageForm = async (pageForm: number) => {
         const labelForm = [
             ["name", "imageURL", "description", "priority"],
-            ["start", "end", "hr_start", "hr_end", "breaktime", "freq", "count", "interval", "byweekday", "bymonth"],
+            ["start", "end", "hr_start", "hr_end", "breaktime", "freq", "count", "interval", "byweekday", "bymonth", "use_number_people"],
             ["scheduleMasterId", "members"]
         ]
 
@@ -225,12 +225,12 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
                 </Form.Item>
             </div>
 
-            
+
             <div className={pageForm == 3 ? '' : 'hidden'}>
                 <Form.Item label="จำนวนเข้าเวรครั้งละ" name="use_number_people">
                     <InputNumber/>
                 </Form.Item>
-                <Form.Item label="scheduleMaster" name="scheduleMaster">
+                <Form.Item label="scheduleMaster" name="master_id">
                     <SelectScheduleTable
                         dataSource={schedules}
                         setSelectMember={setSelectMember}

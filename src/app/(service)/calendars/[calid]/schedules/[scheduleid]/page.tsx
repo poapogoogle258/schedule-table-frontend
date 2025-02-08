@@ -19,10 +19,13 @@ export default async function EditSchedukePage({ params }: { params: Promise<{ c
 
     return (
         <main>
-            <FormEditSchedule
-                members={resp_members.data.data.data}
-                schedules={resp_schedule.data.data}
-            />
+            <div className="container mx-auth px-4 py-4">
+                <FormEditSchedule
+                    members={resp_members.data.data.data}
+                    schedules={resp_schedule.data.data}
+                />
+            </div>
+
         </main>
     )
 }

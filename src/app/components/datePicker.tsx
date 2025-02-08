@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 interface MyDatePickerProps {
     value?: string | null,
-    onChange?: (data: string) => void | undefined
+    onChange?: (data: string | null) => void
 }
 
 const MyDatePicker: React.FC<MyDatePickerProps> = ({ value, onChange }) => {
@@ -18,7 +18,7 @@ const MyDatePicker: React.FC<MyDatePickerProps> = ({ value, onChange }) => {
 
     const DatePickerOnChange: DatePickerProps<Dayjs>['onChange'] = (value) => {
         setDate(value)
-        onChange!(value.format())
+        onChange!(value?.format() || null)
     }
 
     return <DatePicker value={date} onChange={DatePickerOnChange} needConfirm />;

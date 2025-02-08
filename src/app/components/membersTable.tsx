@@ -51,7 +51,6 @@ export default function MembersTable({ dataSource, page, limit, total }: { dataS
             dataIndex: 'name',
             width: '40%',
             render: (_, record) => dataSource.length >= 1 ? <>
-
                 <div className='flex flex-col'>
                     <h3 >{record.name}&nbsp;({record.nickname})</h3>
                     <h5 style={{ opacity: '0.5' }}>{record.description}</h5>

@@ -16,7 +16,7 @@ export default async function ActionCreateSchedule(calendarId : string ,data : S
 
     const payloads: CreateSchedule = {
         name: data.name,
-        master_id: data.scheduleMasterId,
+        master_id: data.master_id,
         calendar_id: calendarId,
         description: data.description,
         imageURL: data.imageURL,

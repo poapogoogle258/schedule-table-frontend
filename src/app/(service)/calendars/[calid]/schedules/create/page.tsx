@@ -19,10 +19,12 @@ export default async function CreateSchedulePage({ params }: { params: Promise<{
 
     return (
         <main>
-            <FormCreateSchedule
-                members={resp_members.data.data.data}
-                schedules={resp_schedule.data.data}
-            />
+            <div className="container mx-auto px-4 py-10">
+                <FormCreateSchedule
+                    members={resp_members.data.data.data}
+                    schedules={resp_schedule.data.data}
+                />
+            </div>
         </main>
     )
 

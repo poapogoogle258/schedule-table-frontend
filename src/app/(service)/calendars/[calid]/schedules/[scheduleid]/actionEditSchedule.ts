@@ -10,13 +10,14 @@ import { auth } from "@/auth"
 
 export default async function ActionUpdateSchedule(calendarId : string ,scheduleId : string ,data : ScheduleFormData) : Promise<ServerActionError> {
     
+
     const session = await auth()
     const token = session!.token
 
     const payloads: Schedule = {
         id:scheduleId,
         name: data.name,
-        master_id: data.scheduleMasterId,
+        master_id: data.master_id,
         calendar_id: calendarId,
         description: data.description,
         imageURL: data.imageURL,
@@ -37,7 +38,7 @@ export default async function ActionUpdateSchedule(calendarId : string ,schedule
         members: data.members!,
         use_number_people : data.use_number_people
     }
-
+    
     try{
         await updateSchedule(calendarId,scheduleId, payloads, token)
     }catch(err){

@@ -7,25 +7,25 @@ import type { GetProp } from 'antd';
 const CheckboxGroup = Checkbox.Group;
 
 const options = [
-  { label: 'มกราคม', value: 0 },
-  { label: 'กุมภาพันธ์', value: 1 },
-  { label: 'มีนาคม', value: 2 },
-  { label: 'เมษายน', value: 3 },
-  { label: 'พฤษภาคม', value: 4 },
-  { label: 'มิถุนายน', value: 5 },
-  { label: 'กรกฎาคม', value: 6 },
-  { label: 'สิงหาคม', value: 7 },
-  { label: 'กันยายน', value: 8 },
-  { label: 'ตุลาคม', value: 9 },
-  { label: 'พฤศจิกายน', value: 10 },
-  { label: 'ธันวาคม', value: 11 },
+  { label: 'มกราคม', value: 1 },
+  { label: 'กุมภาพันธ์', value: 2 },
+  { label: 'มีนาคม', value: 3 },
+  { label: 'เมษายน', value: 4 },
+  { label: 'พฤษภาคม', value: 5 },
+  { label: 'มิถุนายน', value: 6 },
+  { label: 'กรกฎาคม', value: 7 },
+  { label: 'สิงหาคม', value: 8 },
+  { label: 'กันยายน', value: 9 },
+  { label: 'ตุลาคม', value: 10 },
+  { label: 'พฤศจิกายน', value: 11 },
+  { label: 'ธันวาคม', value: 12 },
 ];
 
 export default function checkboxGroupMonth({ value, onChange }: { value?: string[], onChange?: GetProp<typeof Checkbox.Group, 'onChange'> }) {
 
   return <CheckboxGroup value={value} onChange={onChange}>
     <Row>
-      {options.map(option => <Col key={option.value} span={4}>
+      {options.map(option => <Col key={option.value} span={6}>
         <Checkbox key={option.value} value={option.value}>{option.label}</Checkbox>
       </Col>)}
     </Row>
