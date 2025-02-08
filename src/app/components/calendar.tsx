@@ -8,6 +8,7 @@ import type { Task } from "@/type/task"
 
 import dayjs from "dayjs"
 import type { CellRenderInfo } from 'rc-picker/lib/interface';
+import { ModalTaskEdit } from "@/app/components/modalTaskEdit"
 
 import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provider"
 
@@ -27,9 +28,7 @@ export default function TaskCalendar({ dataSource }: { dataSource: Task[] }) {
 
             return dataGroupByDate[key]?.filter((task) => textSearched === "" || textSearched === task.person.name) 
             .map((task) => {
-                return <Tag key={task.id} color={task.person.color}>
-                    {`${task.person.name} (${task.person.nickname})`}
-                </Tag>
+                return <ModalTaskEdit key={`tag-${task.id}`} task={task}/>
             }) ?? null
         }
         return <></>
