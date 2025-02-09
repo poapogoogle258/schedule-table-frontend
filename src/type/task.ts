@@ -25,6 +25,13 @@ export interface Task {
     start: string
     end: string
     status: number
-    person: Person
+    person: Person | undefined
     description:Description
+}
+
+export const Status = {
+    "Created" : 0,
+    "Submitted" : 1,
+    "Reserved" : 2,
+    "Canceled" : 3
 }

@@ -1,6 +1,8 @@
 import client from "./client";
 import type { Response } from "./client";
 import type { Schedule, CreateSchedule } from "@/type/schedule"
+import type { Member } from "@/type/member";
+
 
 export async function fetchSchedules(calendarId: string, token: string) {
     const resp = client.get<Response<Schedule[]>>(`/api/calendars/${calendarId}/schedules`, {
@@ -42,6 +44,15 @@ export function updateSchedule(calendarId: string, scheduleId: string, payloads:
 
 export function deleteSchedule(calendarId: string, scheduleId: string, token: string) {
     return client.delete<Response<Schedule>>(`/api/calendars/${calendarId}/schedules/${scheduleId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+export function fetchMembersResponsible(calendarId: string, scheduleId: string, token: string) {
+    return client.get<Response<Member[]>>(`/api/calendars/${calendarId}/schedules/${scheduleId}/responsible`, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`

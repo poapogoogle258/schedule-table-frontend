@@ -19,14 +19,14 @@ export default function TaskCalendar({ dataSource }: { dataSource: Task[] }) {
 
     const dataGroupByDate = useMemo(() => {
         return Object.groupBy(dataSource, (task) => dayjs(task.start).format("DD/MM/YYYY"))
-    }, [])
+    }, [ dataSource ])
 
 
     const cellRender = (current: dayjs.Dayjs, info: CellRenderInfo<dayjs.Dayjs>) => {
         if (info.type == "date") {
             const key = current.format("DD/MM/YYYY")
 
-            return dataGroupByDate[key]?.filter((task) => textSearched === "" || textSearched === task.person.name) 
+            return dataGroupByDate[key]?.filter((task) => textSearched === "" || textSearched === task.person!.name) 
             .map((task) => {
                 return <ModalTaskEdit key={`tag-${task.id}`} task={task}/>
             }) ?? null
