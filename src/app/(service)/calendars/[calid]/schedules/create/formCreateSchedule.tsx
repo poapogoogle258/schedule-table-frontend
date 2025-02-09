@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
+import dayjs from 'dayjs';
 
 import { Form, Input, Button, InputNumber } from 'antd';
 import UploadProfile from "@/app/components/uploadProfile"
@@ -10,30 +11,24 @@ import { uploadImageUrl } from '@/api/client';
 import MyDatePicker from '@/app/components/datePicker';
 import MyTimePicker from '@/app/components/timePicker';
 
-import type { Dayjs } from 'dayjs';
-import type { Schedule } from '@/type/schedule';
-import type { Member } from '@/type/member';
-
 import CheckboxGroupMonth from '@/app/components/checkboxGroupMonth';
 import CheckboxGroupDay from "@/app/components/checkboxGroupDay"
 import RadioGroupFreq from "@/app/components/radioGroupFreq"
 import SelectMemberTable from "@/app/components/selectMemberTable"
 import SelectScheduleTable from '@/app/components/selectMasterSchedule';
-import dayjs from 'dayjs';
 
-import ActionCreateSchedule from "./actionCreateSchedule"
+import { createScheduleAction } from "@/app/actions/createSchedule"
+
+import type { Dayjs } from 'dayjs';
+import type { Schedule } from '@/type/schedule';
+import type { Member } from '@/type/member';
+import { CreateSchedulePayload } from '@/api/schedules';
 
 const { TextArea } = Input;
 
-
 const defaultImageSchedule = `${uploadImageUrl}/default-image-schedule.jpeg`
 
-interface FormCreateScheduleProps {
-    members: Member[],
-    schedules: Schedule[]
-}
-
-export interface ScheduleFormData {
+interface ScheduleFormData {
     imageURL: string
     name: string
     description: string
@@ -53,15 +48,19 @@ export interface ScheduleFormData {
     use_number_people: number
 }
 
+interface FormCreateScheduleProps {
+    members: Member[],
+    schedules: Schedule[]
+}
 
 const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedules }) => {
 
     const { calid } = useParams<{ calid: string }>()
-    const [form] = Form.useForm();
+    const [form] = Form.useForm<ScheduleFormData>()
+    const [lockSelectMembers, setLockSelectMembers] = useState(false)
+    const [errMessage, setErrMessage] = useState<string>()
     const [pageForm, setPageForm] = useState(1)
 
-
-    const [lockSelectMembers, setLockSelectMembers] = useState(false)
     const buttonSubmit = useRef<HTMLButtonElement>(null)
 
     const initDataForm: ScheduleFormData = {
@@ -100,8 +99,38 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
     const Steps = ["Step 1 of 3: ข้อมูลทั่วไป", "Step 2 of 3: ระยะเวลา", "Step 3 of 3: จัดการสมาชิก"]
 
     const onFinish = async (formData: ScheduleFormData) => {
-        const result = await ActionCreateSchedule(calid, formData)
-    };
+        
+        const payload: CreateSchedulePayload = {
+            name: formData.name,
+            master_id: formData.master_id,
+            calendar_id: calid,
+            description: formData.description,
+            imageURL: formData.imageURL,
+            priority: formData.priority,
+            start: formData.start!,
+            end: formData.end!,
+            hr_start: formData.hr_start!,
+            hr_end: formData.hr_end!,
+            tzid: "Asia/Bangkok", // TO DO : load from dayjs 
+            breaktime: formData.breaktime,
+            use_number_people: formData.use_number_people,
+            recurrence: {
+                freq: formData.freq,
+                count: formData.count,
+                interval: formData.interval,
+                byweekday: formData.byweekday,
+                bymonth: formData.bymonth
+            },
+            members: formData.members!,
+        }
+
+        const result = await createScheduleAction(calid, payload)
+        if (result?.error){
+            setErrMessage(result.error)
+        }
+
+    }
+
 
     const validator = {
         "imageURL": (_: any, value: string) => {
@@ -228,7 +257,7 @@ const FormCreateSchedule: React.FC<FormCreateScheduleProps> = ({ members, schedu
 
             <div className={pageForm == 3 ? '' : 'hidden'}>
                 <Form.Item label="จำนวนเข้าเวรครั้งละ" name="use_number_people">
-                    <InputNumber/>
+                    <InputNumber />
                 </Form.Item>
                 <Form.Item label="scheduleMaster" name="master_id">
                     <SelectScheduleTable

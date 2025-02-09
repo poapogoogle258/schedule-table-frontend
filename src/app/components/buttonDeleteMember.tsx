@@ -8,7 +8,7 @@ import type { PopconfirmProps, ButtonProps } from 'antd';
 
 import { useParams } from 'next/navigation';
 
-import ActionDeleteMember from "@/app/actions/deleteMember"
+import { deleteMemberAction} from "@/app/actions/deleteMember"
 import type { Member } from '@/type/member';
 
 export default function ButtonDeleteMember({ member }: { member: Member }) {
@@ -19,7 +19,7 @@ export default function ButtonDeleteMember({ member }: { member: Member }) {
     
     const onConfirm: PopconfirmProps['onConfirm'] = async (e) => {
         setLoading(true)
-        await ActionDeleteMember(calid, member.id )
+        await deleteMemberAction(calid, member.id )
         setLoading(false)
         setOpen(false)
     }

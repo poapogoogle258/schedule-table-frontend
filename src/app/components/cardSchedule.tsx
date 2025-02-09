@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 
 import { Button, Card, Modal } from 'antd';
-import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 
 import type { Schedule } from '@/type/schedule';
-import actionDeleteSchedule from "@/app/actions/deleteSchedule"
+import { deleteScheduleAction } from "@/app/actions/deleteSchedule"
 
 
 interface CardScheduleProps {
@@ -42,7 +42,7 @@ const ButtonModalDelete: React.FC<ButtonModalDeleteProps> = ({ scheduleId, calen
 
     const handleOk = async () => {
         setIsLoading(true)
-        await actionDeleteSchedule(calendarId, scheduleId)
+        await deleteScheduleAction(calendarId, scheduleId)
         setIsLoading(true)
         setIsModalOpen(false);
     };

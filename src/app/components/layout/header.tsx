@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from "react"
+import React from "react"
 import { Button } from "antd"
 import { MenuOutlined } from "@ant-design/icons"
 import { Header } from 'antd/es/layout/layout';

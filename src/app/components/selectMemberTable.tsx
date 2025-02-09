@@ -1,15 +1,10 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
-import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
-import type { PaginationProps, TableProps } from 'antd';
-import { EditOutlined } from '@ant-design/icons'
+import React, { useMemo } from "react"
+import { Flex, Table, TableColumnsType } from 'antd';
+import type { TableProps } from 'antd';
 
 import type { Member } from "@/type/member"
-
-import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 interface DataType {
     key: React.Key

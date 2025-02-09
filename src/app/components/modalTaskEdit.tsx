@@ -1,15 +1,17 @@
 "use client"
 
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
+import dayjs from "dayjs"
+
+import { uploadImageUrl } from "@/api/client"
 import type { Task, Person } from "@/type/task"
 import { Modal, Tag, Form, Button, DatePicker, Image, Space } from "antd"
 import { SelectMemberResponsible } from "@/app/components/searchMemberResponsible"
 
-import { submittedTaskAction, type TaskEditPayload } from "../actions/submittedTask"
+import { submittedTaskAction } from "../actions/submittedTask"
+import type { UpdateTaskPayload } from "@/api/tasks"
+
 import { Status as TaskStatus } from "@/type/task"
-
-
-import dayjs from "dayjs"
 
 const { RangePicker } = DatePicker;
 
@@ -17,7 +19,6 @@ export interface TaskEditFormData {
     member: Person | undefined;
     range: Date[];
 }
-
 
 export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
 
@@ -29,11 +30,7 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
         member: task.person,
         range: [dayjs(task.start), dayjs(task.end)],
     }
-    
-    const onCancel = () => {
-        setModelOpen(false)
-        form.setFieldsValue(initialValues)
-    }
+
 
     const formLayout = {
         labelCol: { span: 3 },
@@ -41,38 +38,29 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
     }
     const imageURL = useMemo(() => {
         const value = form.getFieldValue("member")
-        return value?.imageURL ?? "https://www.vecteezy.com/free-vector/default-profile-picture"
+        const defaultAvatarProfile = `${uploadImageUrl}/default-profile.jpg`
+        return value?.imageURL ?? defaultAvatarProfile
     }, [form.getFieldValue("member")])
 
-    const rangeValidator = (_: any, value: dayjs.Dayjs[]) => {
-        if ( value == null ){
-            return Promise.reject(new Error("กรุณาเลือกวัน-เวลา"));
-        }
-
-        if ( Math.abs(value[0].diff(value[1], 'hour')) > 24){
-            console.log('aa')
-            return Promise.reject(new Error('กรุณาเลือกเวลาเริ่ม - จบ ให้อยู่ระหว่าง 24 ซม.'));
-        }
-
-        
-        return Promise.resolve();
-    }
-
     const onFinish = async(data: TaskEditFormData) => {
-        const payloads: TaskEditPayload = {
+        const payload: UpdateTaskPayload = {
             member_id : data.member?.id,
             start : data.range[0].toJSON(),
             end : data.range[1].toJSON(),
             status : TaskStatus.Submitted
         }
-        const result = await submittedTaskAction(task.calendar_id, task.id, payloads)
+        const result = await submittedTaskAction(task.calendar_id, task.id, payload)
         
         if(result?.error){
             setErrMessage(result.error)
         }else{
             onCancel()
         }
+    }
 
+    const onCancel = () => {
+        setModelOpen(false)
+        form.setFieldsValue(initialValues)
     }
 
     return <>
@@ -114,5 +102,16 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
             </Form>
         </Modal>
     </>
+}
+
+const rangeValidator = (_: any, value: dayjs.Dayjs[]) => {
+    if ( value == null ){
+        return Promise.reject(new Error("กรุณาเลือกวัน-เวลา"));
+    }
+    if ( Math.abs(value[0].diff(value[1], 'hour')) > 24){
+        return Promise.reject(new Error('กรุณาเลือกเวลาเริ่ม - จบ ให้อยู่ระหว่าง 24 ซม.'));
+    }
+    
+    return Promise.resolve();
 }
 

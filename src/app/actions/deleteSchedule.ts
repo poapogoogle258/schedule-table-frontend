@@ -4,17 +4,14 @@ import { deleteSchedule } from "@/api/schedules";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-export default async function actionDeleteSchedule(calendarId : string, scheduleId : string){
+export async function deleteScheduleAction(calendarId: string, scheduleId: string) {
 
     const session = await auth()
-    const token = session!.token
 
-    try{
-        await deleteSchedule(calendarId, scheduleId, token)
-    }catch(err){
-        return {
-            error : err
-        }
+    try {
+        await deleteSchedule(calendarId, scheduleId, session!.token)
+    } catch (err) {
+        return { error: (err as Error).message }
     }
 
     revalidatePath(`/calendars/${calendarId}/schedules`)

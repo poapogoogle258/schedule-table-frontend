@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Flex, Upload, message } from "antd";
+import { Button, Flex, Upload } from "antd";
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { uploadImageUrl } from "@/api/client"
@@ -11,9 +11,6 @@ import type { GetProp, UploadProps } from 'antd';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-// { value, onChange }
-
-// export default function UploadProfile({ imageUrl = uploadImageUrl + "/default-profile.jpg" }: { imageUrl?: string }) {
 
 export default function UploadProfile({ value, onChange }: { value?: string, onChange?: React.Dispatch<React.SetStateAction<string>> }) {
 

@@ -3,7 +3,7 @@
 import React, { useMemo, useState, useContext, useEffect } from "react"
 import type { Member } from "@/type/member"
 
-import { AutoComplete, Button } from 'antd';
+import { AutoComplete } from 'antd';
 import type { AutoCompleteProps } from 'antd';
 import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provider";
 

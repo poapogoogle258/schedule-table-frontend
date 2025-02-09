@@ -1,7 +1,9 @@
 import client from "./client";
 import type { Response } from "./client";
-import type { Schedule, CreateSchedule } from "@/type/schedule"
+import type { Schedule } from "@/type/schedule"
 import type { Member } from "@/type/member";
+export type CreateSchedulePayload = Omit<Schedule, 'id'>
+export type UpdateSchedulePayload = Schedule
 
 
 export function fetchSchedules(calendarId: string, token: string) {
@@ -21,8 +23,8 @@ export function fetchSchedule(calendarId: string, scheduleId: string, token: str
 
 }
 
-export function createSchedule(calendarId: string, payloads: CreateSchedule, token: string) {
-    return client.post<Response<Schedule>>(`/api/calendars/${calendarId}/schedules`, payloads, {
+export function createSchedule(calendarId: string, payload: CreateSchedulePayload, token: string) {
+    return client.post<Response<Schedule>>(`/api/calendars/${calendarId}/schedules`, payload, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
@@ -30,8 +32,8 @@ export function createSchedule(calendarId: string, payloads: CreateSchedule, tok
     })
 }
 
-export function updateSchedule(calendarId: string, scheduleId: string, payloads: Schedule, token: string) {
-    return client.patch<Response<Schedule>>(`/api/calendars/${calendarId}/schedules/${scheduleId}`, payloads, {
+export function updateSchedule(calendarId: string, scheduleId: string, payload: UpdateSchedulePayload, token: string) {
+    return client.patch<Response<Schedule>>(`/api/calendars/${calendarId}/schedules/${scheduleId}`, payload, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`

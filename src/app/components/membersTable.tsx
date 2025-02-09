@@ -1,14 +1,12 @@
 'use client'
 
 import React from 'react';
+import Link from 'next/link';
 import { Flex, Table, TableColumnsType, Button, Pagination } from 'antd';
 import type { PaginationProps } from 'antd';
 import { EditOutlined } from '@ant-design/icons'
-
 import type { Member } from "@/type/member"
-
 import ButtonDeleteMember from "@/app/components/buttonDeleteMember"
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 export default function MembersTable({ dataSource, page, limit, total }: { dataSource: Member[], page: number, limit: number, total: number }) {

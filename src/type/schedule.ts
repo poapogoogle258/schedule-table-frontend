@@ -26,5 +26,3 @@ export interface Schedule {
     recurrence: Recurrence,
     members: Member[]
 }
- 
-export type CreateSchedule = Omit<Schedule, 'id'>

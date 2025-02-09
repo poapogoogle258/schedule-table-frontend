@@ -2,18 +2,19 @@
 
 import React, { useState } from "react";
 
-// import { z } from "zod"
 import { Button, Form, Input, Flex, ColorPicker } from "antd";
 
-import { useParams } from "next/navigation";
-
+import { useParams, useRouter } from "next/navigation";
 import { uploadImageUrl } from "@/api/client"
 import UploadProfile from "@/app/components/uploadProfile"
-import createNewMemberAction from '../../../../../actions/createMember'
 
-import type { FormDataMember } from "@/type/form"
+import { createMemberAction } from "@/app/actions/createMember";
+import { type CreateMemberPayload } from "@/api/members";
+
 
 const { TextArea } = Input;
+
+const defaultProfileUser = `${uploadImageUrl}/default-profile.jpg`
 
 const formItemLayout = {
     labelCol: {
@@ -24,36 +25,53 @@ const formItemLayout = {
     },
 };
 
-const initDataForm = {
-    "imageURL": `${uploadImageUrl}/default-profile.jpg`,
-    "name": "",
-    "nickname": "",
-    "description": "",
-    "telephone": "",
-    "email": "",
-    "color": "#000000",
-    "position": ""
+interface CreateDataFrom {
+    imageURL: string
+    name: string
+    nickname: string
+    description: string
+    telephone: string
+    email: string
+    color: string
+    position: string
 }
+
 
 export default function FormCreatedMember() {
     const { calid } = useParams<{ calid: string }>()
-    const [form] = Form.useForm();
+    const [form] = Form.useForm<CreateDataFrom>();
+    const router = useRouter()
     const [padding, setPadding] = useState(false)
-    const [message, setMessage] = useState({ color: 'text-red-700', text: '' })
+    const [errMessage, setErrMessage] = useState<string>()
+
+    const initDataForm: CreateDataFrom = {
+        "imageURL": defaultProfileUser,
+        "name": "",
+        "nickname": "",
+        "description": "",
+        "telephone": "",
+        "email": "",
+        "color": "#000000",
+        "position": ""
+    }
+
+    async function onFinish(formData: CreateDataFrom) {
+        setPadding(true)
+
+        const payload: CreateMemberPayload = formData
+        const result = await createMemberAction(calid, payload)
+
+        if (result?.error) {
+            setErrMessage(result.error)
+        }
+
+        setPadding(false)
+    }
 
     const onCancel = () => {
         form.setFieldsValue(initDataForm)
-    }
+        router.push(`/calendars/${calid}/members`)
 
-    async function onFinish(formData: FormDataMember) {
-        setPadding(true)
-        const resp = await createNewMemberAction(calid, formData)
-        if (resp?.error) {
-            setMessage({ color: 'text-red-700', text: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" })
-        } else {
-            setMessage({ color: 'text-green-700', text: "ลงทะเบียนเรียบร้อย" })
-        }
-        setPadding(false)
     }
 
     return <Form {...formItemLayout} form={form} onFinish={onFinish} initialValues={initDataForm}>
@@ -84,8 +102,8 @@ export default function FormCreatedMember() {
             <TextArea placeholder="..." rows={4} />
         </Form.Item>
 
-        <div className={`${message.color} felx justify-self-center py-5`}>
-            {message.text}
+        <div className={`py-5 text-red-700 flex flex-row justify-self-center`}>
+            {errMessage}
         </div>
 
         <Flex gap="middle" justify="center" align='center'>

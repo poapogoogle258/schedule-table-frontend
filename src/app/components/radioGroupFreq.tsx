@@ -1,7 +1,7 @@
 'use client'
 
 import type { RadioChangeEvent } from 'antd';
-import { Input, Radio } from 'antd';
+import { Radio } from 'antd';
 
 const RadioGroup = Radio.Group;
 

@@ -1,31 +1,38 @@
 'use client'
 
 import React, { useState } from "react";
-
 import { Button, Form, Input, Flex, ColorPicker } from "antd";
 import UploadProfile from "@/app/components/uploadProfile"
 import { useRouter, useParams } from 'next/navigation'
 
-import actionEditMember from '../../../../../actions/editMember'
 import type { Member } from "@/type/member"
-import type { FormDataMember } from "@/type/form"
+
+import { updateMemberAction } from "@/app/actions/updateMember";
+import { type UpdateMemberPayload } from "@/api/members";
 
 const { TextArea } = Input;
 
 const formItemLayout = {
-    labelCol: {
-        span: 6,
-    },
-    wrapperCol: {
-        span: 14,
-    },
+    labelCol: { span: 6 },
+    wrapperCol: { span: 14 },
 };
+
+interface UpdateMemberFormData {
+    imageURL: string
+    name: string
+    nickname: string
+    description: string
+    telephone: string
+    email: string
+    color: string
+    position: string
+}
 
 export default function FormEditMember({ member }: { member: Member }) {
     const { calid, memberid } = useParams<{ calid: string, memberid: string }>()
-    const [form] = Form.useForm();
+    const [form] = Form.useForm<UpdateMemberFormData>();
     const [padding, setPadding] = useState(false)
-    const [message, setMessage] = useState({ color: 'text-red-700', text: '' })
+    const [errMessage, setErrMessage] = useState<string>()
 
     const router = useRouter()
 
@@ -42,18 +49,18 @@ export default function FormEditMember({ member }: { member: Member }) {
 
     const onCancel = () => {
         form.setFieldsValue(initDataForm)
-
         router.push(`/calendars/${calid}/members`)
     }
 
-    async function onFinish(formData: FormDataMember) {
+    async function onFinish(formData: UpdateMemberFormData) {
         setPadding(true)
-        const resp = await actionEditMember(calid, memberid, formData)
+
+        const payload: UpdateMemberPayload = formData
+        const resp = await updateMemberAction(calid, memberid, payload)
         if (resp?.error) {
-            setMessage({ color: 'text-red-700', text: resp.error })
-        } else {
-            setMessage({ color: 'text-green-700', text: "ลงทะเบียนเรียบร้อย" })
+            setErrMessage(resp?.error)
         }
+
         setPadding(false)
     }
 
@@ -85,8 +92,8 @@ export default function FormEditMember({ member }: { member: Member }) {
             <TextArea placeholder="..." rows={4} />
         </Form.Item>
 
-        <div className={`${message.color} felx justify-self-center py-5`}>
-            {message.text}
+        <div className={`py-5 text-red-600 flex flex-row justify-self-center`}>
+            {errMessage}
         </div>
 
         <Flex gap="middle" justify="center" align='center'>
