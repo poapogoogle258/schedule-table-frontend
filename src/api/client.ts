@@ -1,5 +1,4 @@
 import axios from "axios"
-import { stat } from "fs"
 
 const BACKEND_HOST = "http://localhost:8080"
 
@@ -19,6 +18,5 @@ const client = axios.create({
 })
 
 
-export declare const token = ""
 export const uploadImageUrl = `${BACKEND_HOST}/upload`
 export default client

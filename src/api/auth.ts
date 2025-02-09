@@ -16,18 +16,14 @@ export interface ProfileRes {
     calendar_id: string
 }
 
-export async function login(email: string, password: string) {
-    const response = await client.post<LoginResponse>('/auth/login', { email: email, password: password })
-
-    return response
+export function login(email: string, password: string) {
+    return client.post<LoginResponse>('/auth/login', { email: email, password: password })
 }
 
-export async function fetchProfile(token: string) {
-    const response = await client.get<Response<ProfileRes>>('/auth/profile', {
+export function fetchProfile(token: string) {
+    return client.get<Response<ProfileRes>>('/auth/profile', {
         headers: {
             "Authorization": `Bearer ${token}`
         }
     })
-
-    return response.data
 }

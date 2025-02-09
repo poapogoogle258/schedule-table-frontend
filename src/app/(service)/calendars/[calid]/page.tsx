@@ -15,27 +15,25 @@ import { auth } from '@/auth'
 import { notFound } from "next/navigation"
 
 
-export default async function CalendarPage({ searchParams, params }: { searchParams : Promise<{ [key: string]: string | string[] | undefined }> ,params: Promise<{ calid: string }> }) {
+export default async function CalendarPage({ searchParams, params }: { searchParams : Promise<{ start? : string , end? : string }> ,params: Promise<{ calid: string }> }) {
 
   const calendarId = (await params).calid
+  const { start, end } = (await searchParams)
 
   const session = await auth()
 
-  const now = dayjs()
-  const defaultStart = now.startOf('month').toDate()
-  const defaultEnd = now.endOf('month').toDate()
 
-  const queryStart = (await searchParams).start as string
-  const queryEnd = (await searchParams).end as string
+  const defaultStart = dayjs().startOf('month')
+  const defaultEnd = dayjs().endOf('month')
 
-  const startDate = queryStart ? new Date(queryStart) : defaultStart;
-  const endDate = queryEnd ? new Date(queryEnd) : defaultEnd;
+  const rangeStart = start ? dayjs(start) : defaultStart;
+  const rangeEnd = end ? dayjs(end) : defaultEnd;
 
   const token = session!.token
 
   let respTasks;
   try{
-    respTasks = await fetchTasks(calendarId, startDate, endDate, token)
+    respTasks = await fetchTasks(calendarId, rangeStart, rangeEnd, token)
   }catch(error){
     notFound()
   }
