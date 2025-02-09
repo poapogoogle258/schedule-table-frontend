@@ -1,6 +1,6 @@
 "use server"
 
-import type { ScheduleFormData } from "./formEditSchedule"
+import type { ScheduleFormData } from "../(service)/calendars/[calid]/schedules/[scheduleid]/formEditSchedule"
 import type { ServerActionError } from "@/type/serverAction"
 import type { Schedule } from "@/type/schedule"
 

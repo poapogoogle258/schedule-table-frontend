@@ -6,7 +6,7 @@ import { Button, Form, Input, Flex, ColorPicker } from "antd";
 import UploadProfile from "@/app/components/uploadProfile"
 import { useRouter, useParams } from 'next/navigation'
 
-import actionEditMember from './actionEditMember'
+import actionEditMember from '../../../../../actions/editMember'
 import type { Member } from "@/type/member"
 import type { FormDataMember } from "@/type/form"
 

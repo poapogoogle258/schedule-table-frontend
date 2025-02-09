@@ -5,7 +5,7 @@ import type { Task, Person } from "@/type/task"
 import { Modal, Tag, Form, Button, DatePicker, Image, Space } from "antd"
 import { SelectMemberResponsible } from "@/app/components/searchMemberResponsible"
 
-import { submittedTaskAction, type TaskEditPayload } from "../actions/submittedTaskAction"
+import { submittedTaskAction, type TaskEditPayload } from "../actions/submittedTask"
 import { Status as TaskStatus } from "@/type/task"
 
 

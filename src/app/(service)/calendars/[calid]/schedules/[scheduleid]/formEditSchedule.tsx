@@ -21,7 +21,7 @@ import SelectMemberTable from "@/app/components/selectMemberTable"
 import SelectScheduleTable from '@/app/components/selectMasterSchedule';
 import dayjs from 'dayjs';
 
-import ActionUpdateSchedule from "./actionEditSchedule"
+import ActionUpdateSchedule from "../../../../../actions/editSchedule"
 
 const { TextArea } = Input;
 

@@ -6,7 +6,7 @@ import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-de
 import Link from 'next/link';
 
 import type { Schedule } from '@/type/schedule';
-import actionDeleteSchedule from "@/app/(service)/calendars/[calid]/schedules/actionDeleteSchedule"
+import actionDeleteSchedule from "@/app/actions/deleteSchedule"
 
 
 interface CardScheduleProps {

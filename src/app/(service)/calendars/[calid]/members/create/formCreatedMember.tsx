@@ -9,7 +9,7 @@ import { useParams } from "next/navigation";
 
 import { uploadImageUrl } from "@/api/client"
 import UploadProfile from "@/app/components/uploadProfile"
-import createNewMemberAction from './actionCreateMember'
+import createNewMemberAction from '../../../../../actions/createMember'
 
 import type { FormDataMember } from "@/type/form"
 

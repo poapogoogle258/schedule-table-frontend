@@ -2,7 +2,7 @@ import client from "./client";
 import type { Response } from "./client";
 import type { Task } from "@/type/task"
 
-import type { TaskEditPayload } from "@/app/actions/submittedTaskAction";
+import type { TaskEditPayload } from "@/app/actions/submittedTask";
 
 
 export async function fetchTasks(calendar_id: string, start: Date, end: Date, token: string) {

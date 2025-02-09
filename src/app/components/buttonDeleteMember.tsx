@@ -8,7 +8,7 @@ import type { PopconfirmProps, ButtonProps } from 'antd';
 
 import { useParams } from 'next/navigation';
 
-import ActionDeleteMember from "@/app/(service)/calendars/[calid]/members/action/deleteMemberAction"
+import ActionDeleteMember from "@/app/actions/deleteMember"
 import type { Member } from '@/type/member';
 
 export default function ButtonDeleteMember({ member }: { member: Member }) {
