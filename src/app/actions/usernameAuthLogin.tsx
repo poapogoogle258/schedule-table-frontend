@@ -9,8 +9,12 @@ export async function authenticate(
 ) {
 
   try {
-    const formDataObj = Object.fromEntries(formData.entries());
-    await signIn('credentials', { ...formDataObj, redirectTo: '/calendars' });
+    // const formDataObj = Object.fromEntries(formData.entries());
+    console.log("000")
+    const result =  await signIn('credentials', formData );
+    console.log("...")
+
+    console.log(result)
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

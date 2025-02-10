@@ -13,7 +13,7 @@ export default async function EditSchedukePage({ params }: { params: Promise<{ c
     const { calid, scheduleid } = await params
 
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
 
     const [resp_members, resp_schedule] = await Promise.all([fetchMembers(calid, "all=true", token), fetchSchedules(calid, token)])
 

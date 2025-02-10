@@ -14,7 +14,7 @@ export default async function SchedulePage({ params }: { params: Promise<{ calid
     const calendarId = (await params).calid
 
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
 
     const resp = await fetchSchedules(calendarId, token)
 

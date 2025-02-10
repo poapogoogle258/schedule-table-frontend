@@ -7,9 +7,10 @@ import { revalidatePath } from "next/cache";
 export async function deleteScheduleAction(calendarId: string, scheduleId: string) {
 
     const session = await auth()
+    const token = session!.access_token!
 
     try {
-        await deleteSchedule(calendarId, scheduleId, session!.token)
+        await deleteSchedule(calendarId, scheduleId, token)
     } catch (err) {
         return { error: (err as Error).message }
     }

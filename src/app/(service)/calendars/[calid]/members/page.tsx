@@ -21,7 +21,8 @@ export default async function MembersManagement({ params, searchParams }: { para
 
     const calendarId = (await params).calid
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
+    
 
     const { data: { data: data } } = await fetchMembers(calendarId, query.toString(), token) // ha ha ha
 

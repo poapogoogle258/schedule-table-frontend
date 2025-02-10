@@ -12,7 +12,7 @@ export default async function EditMemberPage({ params }: { params: Promise<{ cal
   const { calid, memberid } = await params
 
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
 
   const res = await fetchMember(calid, memberid, token)
 

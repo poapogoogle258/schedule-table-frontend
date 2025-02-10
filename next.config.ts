@@ -10,9 +10,9 @@ const nextConfig: NextConfig = {
         destination: '/calendars/[calid]/members',
         permanent: true,
       },
-
     ]
   },
+  
 };
 
 export default nextConfig;

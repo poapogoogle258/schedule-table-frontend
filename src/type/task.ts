@@ -25,7 +25,7 @@ export interface Task {
     start: string
     end: string
     status: number
-    person: Person | undefined
+    person: Person | null
     description:Description
 }
 

@@ -17,6 +17,7 @@ export interface SearchMemberResponsible {
 export const SelectMemberResponsible: React.FC<SearchMemberResponsible> = ({scheduleId ,calendarId, value, onChange}) => {
 
     const { data: session } = useSession()
+    const token = session!.access_token!
     const [ members , setMembers] = useState<Member[]>()
 
     const options: SelectProps['options'] = useMemo(() => {
@@ -33,7 +34,7 @@ export const SelectMemberResponsible: React.FC<SearchMemberResponsible> = ({sche
 
     const initial = async() => {
         if(members === undefined){
-            const resp = await fetchMembersResponsible(calendarId, scheduleId, session!.token)
+            const resp = await fetchMembersResponsible(calendarId, scheduleId, token)
             setMembers(resp.data.data)
         }
     }

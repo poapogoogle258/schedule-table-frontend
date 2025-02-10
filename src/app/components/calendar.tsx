@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useContext } from "react"
+import React, { useMemo, useContext, useCallback } from "react"
 import { Calendar, Tag } from "antd"
 import { CalendarProps } from "antd"
 
@@ -22,7 +22,7 @@ export default function TaskCalendar({ dataSource }: { dataSource: Task[] }) {
     }, [ dataSource ])
 
 
-    const cellRender = (current: dayjs.Dayjs, info: CellRenderInfo<dayjs.Dayjs>) => {
+    const cellRender = useCallback((current: dayjs.Dayjs, info: CellRenderInfo<dayjs.Dayjs>) => {
         if (info.type == "date") {
             const key = current.format("DD/MM/YYYY")
 
@@ -32,8 +32,7 @@ export default function TaskCalendar({ dataSource }: { dataSource: Task[] }) {
             }) ?? null
         }
         return <></>
-
-    }
+    },[ dataGroupByDate ])
 
     const onSelect:CalendarProps<dayjs.Dayjs>['onSelect']  = (date) => {
         setDateSelected(date.format("DD/MM/YYYY"))

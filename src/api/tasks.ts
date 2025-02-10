@@ -5,7 +5,7 @@ import type { Task } from "@/type/task"
 import type { Dayjs } from "dayjs";
 
 export interface UpdateTaskPayload {
-    member_id : string | undefined
+    member_id : string | null
     start : string
     end : string
     status : number

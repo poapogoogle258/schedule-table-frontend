@@ -16,7 +16,7 @@ import { Status as TaskStatus } from "@/type/task"
 const { RangePicker } = DatePicker;
 
 export interface TaskEditFormData {
-    member: Person | undefined;
+    member: Person | null;
     range: Date[];
 }
 
@@ -24,27 +24,29 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
 
     const [isModelOpen, setModelOpen] = useState(false)
     const [form] = Form.useForm<TaskEditFormData>();
-    const [ errMessage , setErrMessage ] = useState<string>()
+    const [errMessage , setErrMessage ] = useState<string>()
+    const [isLoading, setLoading] = useState(false)
 
     const initialValues = {
         member: task.person,
         range: [dayjs(task.start), dayjs(task.end)],
     }
 
-
     const formLayout = {
         labelCol: { span: 3 },
         wrapperCol: { span: 20 }
     }
+    
     const imageURL = useMemo(() => {
         const value = form.getFieldValue("member")
         const defaultAvatarProfile = `${uploadImageUrl}/default-profile.jpg`
-        return value?.imageURL ?? defaultAvatarProfile
+        return value?.imageURL || defaultAvatarProfile
     }, [form.getFieldValue("member")])
 
     const onFinish = async(data: TaskEditFormData) => {
+        setLoading(true)
         const payload: UpdateTaskPayload = {
-            member_id : data.member?.id,
+            member_id : data.member?.id || null,
             start : data.range[0].toJSON(),
             end : data.range[1].toJSON(),
             status : TaskStatus.Submitted
@@ -56,6 +58,25 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
         }else{
             onCancel()
         }
+        setLoading(false)
+    }
+
+    const onCancelTask = async() => {
+        setLoading(true)
+        const payload: UpdateTaskPayload = {
+            member_id : null,
+            start : dayjs(task.start).toJSON(),
+            end : dayjs(task.end).toJSON(),
+            status : TaskStatus.Canceled
+        }
+        const result = await submittedTaskAction(task.calendar_id, task.id, payload)
+        
+        if(result?.error){
+            setErrMessage(result.error)
+        }else{
+            onCancel()
+        }
+        setLoading(false)
     }
 
     const onCancel = () => {
@@ -95,8 +116,8 @@ export const ModalTaskEdit: React.FC<{ task: Task }> = ({ task }) => {
                 <div className="flex flex-row justify-center place-items-center">
                     <p className="text-red-400">{errMessage}</p>
                     <Space align="center">
-                        <Button type="primary" htmlType="submit">แก้ไข</Button>
-                        <Button danger>ลบ</Button>
+                        <Button loading={isLoading} type="primary" htmlType="submit">แก้ไข</Button>
+                        <Button loading={isLoading} onClick={onCancelTask} danger>ลบ</Button>
                     </Space>
                 </div>
             </Form>

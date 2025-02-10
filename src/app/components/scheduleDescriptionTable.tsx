@@ -8,7 +8,7 @@ import { useCalendarPageStore } from "@/app/state/provider/calendar-page-provide
 import type { Task, Person, Description } from "@/type/task";
 
 interface DescriptionScheduleMemberProps {
-    member: Person | undefined
+    member: Person | null
 }
 
 const DescriptionScheduleMember: React.FC<DescriptionScheduleMemberProps> = ({ member }) => {
@@ -19,20 +19,19 @@ const DescriptionScheduleMember: React.FC<DescriptionScheduleMemberProps> = ({ m
 
     return <div className="grid grid-cols-3">
         <div className="col-span-1">
-            <Avatar src={member?.imageURL ?? defaultAvatarProfile} size='large' shape='circle' />
+            <Avatar src={member?.imageURL || defaultAvatarProfile} size='large' shape='circle' />
         </div>
         <div className="col-span-2">
-            <h4 className="text-m font-bold">{member?.name ?? defaultName}</h4>
-            <p className="text-xs font-thin text-black/30">({member?.position ?? defaultPosition})</p>
+            <h4 className="text-m font-bold">{member?.name || defaultName}</h4>
+            <p className="text-xs font-thin text-black/30">({member?.position || defaultPosition})</p>
         </div>
-
     </div>
 }
 
 interface DescriptionScheduleProps {
     time: string
     info: Description
-    members: (Person | undefined)[]
+    members: (Person | null)[]
 }
 
 const DescriptionSchedule: React.FC<DescriptionScheduleProps> = ({ time, info, members }) => {
@@ -44,7 +43,7 @@ const DescriptionSchedule: React.FC<DescriptionScheduleProps> = ({ time, info, m
                 <p className="font-light text-black/40 line-clamp-1">{info.description}</p>
             </div>
             <div className="flex flex-col gap-2">
-                {members?.map((member) => <DescriptionScheduleMember key={member?.id ?? new Date().valueOf()} member={member} />)}
+                {members?.map((member) => <DescriptionScheduleMember key={member?.id || new Date().valueOf()} member={member} />)}
             </div>
         </div>
     )
@@ -60,11 +59,11 @@ const ScheduleDescriptionTable: React.FC<ScheduleDescriptionTableProps> = ({ tas
 
     const tasksDate = useMemo(() => {
         return Object.groupBy(tasks, (task) => dayjs(task.start).format("DD/MM/YYYY"))
-    }, [])
+    }, [tasks])
 
     const display = useMemo(() => {
         return Object.entries(Object.groupBy(tasksDate[dateSelected]?.filter((task) => textSearched === "" || textSearched === task.person!.name) ?? [], (t) => t.schedule_id))
-    }, [dateSelected, textSearched])
+    }, [dateSelected, textSearched, tasksDate])
 
     return (
         <div className="grid grid-row gap-6">

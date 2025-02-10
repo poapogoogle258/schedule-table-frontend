@@ -11,11 +11,11 @@ import { auth } from "@/auth"
 export async function createScheduleAction(calendarId : string ,payload : CreateSchedulePayload) : Promise<ServerActionError> {
     
     const session = await auth()
-
+    const token = session!.access_token!
 
 
     try{
-        await createSchedule(calendarId, payload, session!.token)
+        await createSchedule(calendarId, payload, token)
     }catch(err){
         return {
             error : "something wrong"

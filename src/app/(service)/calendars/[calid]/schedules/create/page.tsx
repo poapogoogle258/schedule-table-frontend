@@ -13,7 +13,7 @@ export default async function CreateSchedulePage({ params }: { params: Promise<{
     const calendarId = (await params).calid
 
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
 
     const [resp_members, resp_schedule] = await Promise.all([fetchMembers(calendarId, "all=true", token), fetchSchedules(calendarId, token)])
 

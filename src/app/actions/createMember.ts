@@ -10,7 +10,7 @@ import { auth } from "@/auth";
 export async function createMemberAction(calenderId : string, payload: CreateMemberPayload) : Promise<ServerActionError> {
 
     const session = await auth()
-    const token = session!.token
+    const token = session!.access_token!
 
     try { 
         await createMember(calenderId, payload, token)

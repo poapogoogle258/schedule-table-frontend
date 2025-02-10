@@ -9,9 +9,10 @@ import { auth } from "@/auth"
 export async function updateMemberAction(calendarId: string, memberId: string, payload: UpdateMemberPayload): Promise<ServerActionError> {
 
     const session = await auth()
+    const token = session!.access_token!
 
     try {
-        await updateMember(calendarId, memberId, payload, session!.token)
+        await updateMember(calendarId, memberId, payload, token)
     } catch (err) {
         return {
             error: (err as Error).message

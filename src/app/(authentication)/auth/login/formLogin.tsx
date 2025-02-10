@@ -80,7 +80,7 @@ export default function FormLogin() {
                                     </button>
                                 </span>
                                 <div className="block w-full rounded-md shadow-sm">
-                                    <button disabled={!isPending} onClick={googleSingIn} type='button' className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-slate-200  hover:bg-slate-400 focus:outline-none   transition duration-150 ease-in-out">
+                                    <button disabled={isPending} onClick={googleSingIn} type='button' className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md bg-slate-200  hover:bg-slate-400 focus:outline-none   transition duration-150 ease-in-out">
                                         Google Sign in
                                     </button>
                                 </div>

@@ -2,6 +2,8 @@
 
 import React, { Suspense } from "react"
 
+import { Status as TaskStatus } from "@/type/task"
+
 import { Row, Col } from "antd"
 import TaskCalendar from "@/app/components/calendar"
 import ScheduleDescriptionTable from "@/app/components/scheduleDescriptionTable"
@@ -15,12 +17,14 @@ import { auth } from '@/auth'
 import { notFound } from "next/navigation"
 
 
+
 export default async function CalendarPage({ searchParams, params }: { searchParams : Promise<{ start? : string , end? : string }> ,params: Promise<{ calid: string }> }) {
 
   const calendarId = (await params).calid
   const { start, end } = (await searchParams)
 
   const session = await auth()
+  const token = session!.access_token!
 
 
   const defaultStart = dayjs().startOf('month')
@@ -29,14 +33,8 @@ export default async function CalendarPage({ searchParams, params }: { searchPar
   const rangeStart = start ? dayjs(start) : defaultStart;
   const rangeEnd = end ? dayjs(end) : defaultEnd;
 
-  const token = session!.token
-
-  let respTasks;
-  try{
-    respTasks = await fetchTasks(calendarId, rangeStart, rangeEnd, token)
-  }catch(error){
-    notFound()
-  }
+  const resp = await fetchTasks(calendarId, rangeStart, rangeEnd, token)
+  const tasks = resp.data.data.filter((task) => task.status != TaskStatus.Canceled )
 
   return (
     <main>
@@ -49,11 +47,11 @@ export default async function CalendarPage({ searchParams, params }: { searchPar
                   <S_InputSearchNameMember calendarId={calendarId} />
                 </Suspense>
               </div>
-              <TaskCalendar dataSource={respTasks.data.data} />
+              <TaskCalendar dataSource={tasks} />
             </div>
           </Col>
           <Col xs={24} md={4}>
-            <ScheduleDescriptionTable tasks={respTasks.data.data} />
+            <ScheduleDescriptionTable tasks={tasks} />
           </Col>
         </Row>
       </div>
@@ -64,7 +62,9 @@ export default async function CalendarPage({ searchParams, params }: { searchPar
 
 async function S_InputSearchNameMember({ calendarId }: { calendarId: string }) {
   const session = await auth()
-  const resp_members = await fetchMembers(calendarId, "all=1", session!.token)
+  const token = session!.access_token!
+  
+  const resp_members = await fetchMembers(calendarId, "all=1", token)
 
   return <InputSearchNameMember members={resp_members.data.data.data} />
 }
